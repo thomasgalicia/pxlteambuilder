@@ -18,13 +18,11 @@ namespace PxlTeambuilderApi.Tests.Controllers
 
         private ProjectController projectController;
         private Mock<IProjectService> projectServiceMock;
-        private Random random;
         private ProjectBuilder projectBuilder;
 
         [SetUp]
         public void Setup()
-        {
-            
+        { 
             projectBuilder = new ProjectBuilder();
             projectServiceMock = new Mock<IProjectService>();
             projectController = new ProjectController(projectServiceMock.Object);
