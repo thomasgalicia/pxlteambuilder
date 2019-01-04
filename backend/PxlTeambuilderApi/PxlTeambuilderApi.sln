@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PxlTeambuilderApi", "PxlTeambuilderApi\PxlTeambuilderApi.csproj", "{EC21DCAB-5EE9-4138-8FD8-35C54BFFBA7C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PxlTeambuilderApi.Data", "PxlTeambuilderApi.Data\PxlTeambuilderApi.Data.csproj", "{BCFC94BD-4A42-432E-B25C-0A833B2BFE25}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{EC21DCAB-5EE9-4138-8FD8-35C54BFFBA7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC21DCAB-5EE9-4138-8FD8-35C54BFFBA7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC21DCAB-5EE9-4138-8FD8-35C54BFFBA7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCFC94BD-4A42-432E-B25C-0A833B2BFE25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCFC94BD-4A42-432E-B25C-0A833B2BFE25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCFC94BD-4A42-432E-B25C-0A833B2BFE25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCFC94BD-4A42-432E-B25C-0A833B2BFE25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
