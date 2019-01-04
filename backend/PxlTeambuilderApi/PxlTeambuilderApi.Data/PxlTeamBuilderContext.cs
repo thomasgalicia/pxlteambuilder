@@ -10,7 +10,8 @@ namespace PxlTeambuilderApi.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Project> Projects { get; set; }
-        public DbSet<UserProjects> UserProjects { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<UserGroup> UserGroups { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -19,11 +20,12 @@ namespace PxlTeambuilderApi.Data
 
             //project table
             modelBuilder.Entity<Project>().HasKey(project => project.ProjectId);
+            modelBuilder.Entity<Project>().HasMany(project => project.Groups).WithOne(group => group.Project).HasForeignKey(group => group.ProjectId);
 
-            //many to many relationship
-            modelBuilder.Entity<UserProjects>().HasKey(userProject => new { userProject.Email, userProject.ProjectId });
-            modelBuilder.Entity<UserProjects>().HasOne(userProject => userProject.User).WithMany(user => user.UserProjects).HasForeignKey(userProject => userProject.Email);
-            modelBuilder.Entity<UserProjects>().HasOne(userProject => userProject.Project).WithMany(project => project.UserProjects).HasForeignKey(userProject => userProject.ProjectId);
+            //many to many relationships
+            modelBuilder.Entity<UserGroup>().HasKey(userGroup => new { userGroup.Email, userGroup.GroupId });
+            modelBuilder.Entity<UserGroup>().HasOne(userGroup => userGroup.User).WithMany(user => user.UserGroups).HasForeignKey(userGroup => userGroup.Email);
+            modelBuilder.Entity<UserGroup>().HasOne(userGroup => userGroup.Group).WithMany(group => group.UserGroups).HasForeignKey(userGroup => userGroup.GroupId);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

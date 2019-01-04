@@ -18,6 +18,22 @@ namespace PxlTeambuilderApi.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("PxlTeambuilderApi.Data.Domain.Group", b =>
+                {
+                    b.Property<string>("GroupId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("ProjectId");
+
+                    b.HasKey("GroupId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Groups");
+                });
+
             modelBuilder.Entity("PxlTeambuilderApi.Data.Domain.Project", b =>
                 {
                     b.Property<string>("ProjectId")
@@ -25,7 +41,7 @@ namespace PxlTeambuilderApi.Data.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int>("MaxStudentPerGroup");
+                    b.Property<int>("MaxStudentsPerGroup");
 
                     b.Property<string>("Title");
 
@@ -50,29 +66,36 @@ namespace PxlTeambuilderApi.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("PxlTeambuilderApi.Data.Domain.UserProjects", b =>
+            modelBuilder.Entity("PxlTeambuilderApi.Data.Domain.UserGroup", b =>
                 {
                     b.Property<string>("Email");
 
-                    b.Property<string>("ProjectId");
+                    b.Property<string>("GroupId");
 
-                    b.HasKey("Email", "ProjectId");
+                    b.HasKey("Email", "GroupId");
 
-                    b.HasIndex("ProjectId");
+                    b.HasIndex("GroupId");
 
-                    b.ToTable("UserProjects");
+                    b.ToTable("UserGroups");
                 });
 
-            modelBuilder.Entity("PxlTeambuilderApi.Data.Domain.UserProjects", b =>
+            modelBuilder.Entity("PxlTeambuilderApi.Data.Domain.Group", b =>
+                {
+                    b.HasOne("PxlTeambuilderApi.Data.Domain.Project", "Project")
+                        .WithMany("Groups")
+                        .HasForeignKey("ProjectId");
+                });
+
+            modelBuilder.Entity("PxlTeambuilderApi.Data.Domain.UserGroup", b =>
                 {
                     b.HasOne("PxlTeambuilderApi.Data.Domain.User", "User")
-                        .WithMany("UserProjects")
+                        .WithMany("UserGroups")
                         .HasForeignKey("Email")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("PxlTeambuilderApi.Data.Domain.Project", "Project")
-                        .WithMany("UserProjects")
-                        .HasForeignKey("ProjectId")
+                    b.HasOne("PxlTeambuilderApi.Data.Domain.Group", "Group")
+                        .WithMany("UserGroups")
+                        .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
