@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PxlTeambuilderApi.Data", "P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PxlTeambuilder.Runtime", "PxlTeambuilder.Runtime\PxlTeambuilder.Runtime.csproj", "{A447DD9B-677A-4708-9D21-E53A666BC4E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PxlTeambuilderApi.Tests", "PxlTeambuilderApi.Tests\PxlTeambuilderApi.Tests.csproj", "{ED328751-408C-48E5-A67C-C4D60F28C2D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A447DD9B-677A-4708-9D21-E53A666BC4E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A447DD9B-677A-4708-9D21-E53A666BC4E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A447DD9B-677A-4708-9D21-E53A666BC4E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED328751-408C-48E5-A67C-C4D60F28C2D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED328751-408C-48E5-A67C-C4D60F28C2D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED328751-408C-48E5-A67C-C4D60F28C2D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED328751-408C-48E5-A67C-C4D60F28C2D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
