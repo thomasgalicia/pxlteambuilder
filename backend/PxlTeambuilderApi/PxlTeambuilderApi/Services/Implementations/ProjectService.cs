@@ -1,4 +1,5 @@
 ﻿using PxlTeambuilderApi.Data.Domain;
+using PxlTeambuilderApi.Exceptions;
 using PxlTeambuilderApi.Repositories.Implementations;
 using PxlTeambuilderApi.Services.Interfaces;
 using System;
@@ -19,7 +20,13 @@ namespace PxlTeambuilderApi.Services.Implementations
 
         public async Task<Project> GetProjectByIdAsync(string projectId)
         {
-            return await projectRepository.GetProjectByIdAsync(projectId);
+            Project project = await projectRepository.GetProjectByIdAsync(projectId);
+            if(project == null)
+            {
+                throw new ProjectNotFoundException(projectId);
+            }
+
+            return project;
         }
 
         //TODO: implement

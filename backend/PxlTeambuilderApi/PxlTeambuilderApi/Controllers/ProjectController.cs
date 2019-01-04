@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PxlTeambuilderApi.Data.Domain;
+using PxlTeambuilderApi.Exceptions;
 using PxlTeambuilderApi.Services.Interfaces;
 
 namespace PxlTeambuilderApi.Controllers
@@ -19,7 +21,21 @@ namespace PxlTeambuilderApi.Controllers
             this.projectService = projectService;
         }
 
-      
+        [HttpGet]
+        [Route("{projectId}")]
+        public async Task<IActionResult> GetProject(string projectId)
+        {
+            try
+            {
+                Project project = await projectService.GetProjectByIdAsync(projectId);
+                return Ok(project);
+            }
+
+            catch(ProjectNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
       
     }
 }
