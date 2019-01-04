@@ -17,6 +17,7 @@ namespace PxlTeambuilderApi.Data
         {
             //user table
             modelBuilder.Entity<User>().HasKey(user => user.Email);
+            modelBuilder.Entity<User>().HasMany(user => user.Projects).WithOne(project => project.User).HasForeignKey(project => project.UserEmail);
 
             //project table
             modelBuilder.Entity<Project>().HasKey(project => project.ProjectId);
