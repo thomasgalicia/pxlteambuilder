@@ -5,6 +5,8 @@ namespace PxlTeambuilderApi.Data
 {
     public class PxlTeamBuilderContext : DbContext
     {
+        
+        private const string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog = PxlTeambuilderDb; Integrated Security = True; Connect Timeout = 30; Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
 
         public DbSet<User> Users { get; set; }
         public DbSet<Project> Projects { get; set; }
@@ -24,5 +26,9 @@ namespace PxlTeambuilderApi.Data
             modelBuilder.Entity<UserProjects>().HasOne(userProject => userProject.Project).WithMany(project => project.UserProjects).HasForeignKey(userProject => userProject.ProjectId);
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(connectionString);
+        }
     }
 }
