@@ -8,7 +8,7 @@ namespace PxlTeambuilderApi.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<User> GetUserByEmailAsync(string email);
+        Task<User> GetUserByUserIdAsync(int userId);
         Task<User> AddUserAsync(User user);
     }
 }

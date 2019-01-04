@@ -18,9 +18,9 @@ namespace PxlTeambuilderApi.Services.Implementations
         }
 
         //TODO: throw exception when user not found (=null)
-        public async Task<User> GetUserByEmailAsync(string email)
+        public async Task<User> GetUserByUserIdAsync(int userId)
         {
-            return await userRepository.GetUserByEmailAsync(email);
+            return await userRepository.GetUserByUserIdAsync(userId);
         }
 
         //TODO: hash password before adding to database

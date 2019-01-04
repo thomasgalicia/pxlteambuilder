@@ -18,9 +18,9 @@ namespace PxlTeambuilderApi.Repositories.Implementations
             this.context = context;
         }
 
-        public async Task<User> GetUserByEmailAsync(string email)
+        public async Task<User> GetUserByUserIdAsync(int userId)
         {
-            return await context.Users.FindAsync(email);
+            return await context.Users.FindAsync(userId);
         }
 
         //TODO: implement add
