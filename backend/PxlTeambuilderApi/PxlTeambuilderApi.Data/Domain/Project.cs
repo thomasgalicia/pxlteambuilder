@@ -7,7 +7,7 @@ namespace PxlTeambuilderApi.Data.Domain
     public class Project
     {
         public string ProjectId { get; set; }
-        public string UserEmail { get; set; }
+        public int UserId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public int MaxStudentsPerGroup { get; set; }

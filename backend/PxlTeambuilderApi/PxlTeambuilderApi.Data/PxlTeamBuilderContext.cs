@@ -16,16 +16,16 @@ namespace PxlTeambuilderApi.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //user table
-            modelBuilder.Entity<User>().HasKey(user => user.Email);
-            modelBuilder.Entity<User>().HasMany(user => user.Projects).WithOne(project => project.User).HasForeignKey(project => project.UserEmail);
+            modelBuilder.Entity<User>().HasKey(user => user.Id);
+            modelBuilder.Entity<User>().HasMany(user => user.Projects).WithOne(project => project.User).HasForeignKey(project => project.UserId);
 
             //project table
             modelBuilder.Entity<Project>().HasKey(project => project.ProjectId);
             modelBuilder.Entity<Project>().HasMany(project => project.Groups).WithOne(group => group.Project).HasForeignKey(group => group.ProjectId);
 
             //many to many relationships
-            modelBuilder.Entity<UserGroup>().HasKey(userGroup => new { userGroup.Email, userGroup.GroupId });
-            modelBuilder.Entity<UserGroup>().HasOne(userGroup => userGroup.User).WithMany(user => user.UserGroups).HasForeignKey(userGroup => userGroup.Email);
+            modelBuilder.Entity<UserGroup>().HasKey(userGroup => new { userGroup.UserId, userGroup.GroupId });
+            modelBuilder.Entity<UserGroup>().HasOne(userGroup => userGroup.User).WithMany(user => user.UserGroups).HasForeignKey(userGroup => userGroup.UserId);
             modelBuilder.Entity<UserGroup>().HasOne(userGroup => userGroup.Group).WithMany(group => group.UserGroups).HasForeignKey(userGroup => userGroup.GroupId);
         }
 
