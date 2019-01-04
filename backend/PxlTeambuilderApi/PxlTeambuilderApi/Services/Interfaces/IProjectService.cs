@@ -8,8 +8,8 @@ namespace PxlTeambuilderApi.Services.Interfaces
 {
     public interface IProjectService
     {
-        Task<Project> GetProjectByIdAsync(int projectId);
+        Task<Project> GetProjectByIdAsync(string projectId);
         Task<Project> AddProjectAsync(Project project);
-        Task<Project> UpdateProjectAsync(int projectId, Project project);
+        Task<Project> UpdateProjectAsync(string projectId, Project project);
     }
 }

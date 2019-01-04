@@ -1,4 +1,5 @@
 ﻿using PxlTeambuilderApi.Data.Domain;
+using PxlTeambuilderApi.Repositories.Implementations;
 using PxlTeambuilderApi.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,16 @@ namespace PxlTeambuilderApi.Services.Implementations
 {
     public class ProjectService : IProjectService
     {
-        public async Task<Project> GetProjectByIdAsync(int projectId)
+        private readonly IProjectRepository projectRepository;
+
+        public ProjectService(IProjectRepository projectRepository)
         {
-            throw new NotImplementedException();
+            this.projectRepository = projectRepository;
+        }
+
+        public async Task<Project> GetProjectByIdAsync(string projectId)
+        {
+            return await projectRepository.GetProjectByIdAsync(projectId);
         }
 
         //TODO: implement
@@ -22,7 +30,7 @@ namespace PxlTeambuilderApi.Services.Implementations
 
         //TODO: implement
         //TODO: check max amount of students per group for project
-        public async Task<Project> UpdateProjectAsync(int projectId, Project project)
+        public async Task<Project> UpdateProjectAsync(string projectId, Project project)
         {
             throw new NotImplementedException();
         }
