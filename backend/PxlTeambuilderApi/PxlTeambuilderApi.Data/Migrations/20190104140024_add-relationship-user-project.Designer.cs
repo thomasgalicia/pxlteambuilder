@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PxlTeambuilderApi.Data;
 
 namespace PxlTeambuilderApi.Data.Migrations
 {
     [DbContext(typeof(PxlTeamBuilderContext))]
-    partial class PxlTeamBuilderContextModelSnapshot : ModelSnapshot
+    [Migration("20190104140024_add-relationship-user-project")]
+    partial class addrelationshipuserproject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
