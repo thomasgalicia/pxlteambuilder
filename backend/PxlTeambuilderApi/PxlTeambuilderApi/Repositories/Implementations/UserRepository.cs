@@ -24,7 +24,7 @@ namespace PxlTeambuilderApi.Repositories.Implementations
         }
 
         //TODO: implement add
-        public Task<User> AddUserAsync(User user)
+        public async Task<User> AddUserAsync(User user)
         {
             throw new NotImplementedException();
         }
