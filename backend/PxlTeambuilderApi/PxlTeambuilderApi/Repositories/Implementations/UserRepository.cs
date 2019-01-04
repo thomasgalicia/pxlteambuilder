@@ -18,13 +18,13 @@ namespace PxlTeambuilderApi.Repositories.Implementations
             this.context = context;
         }
 
-        public User GetUserByEmail(string email)
+        public async Task<User> GetUserByEmail(string email)
         {
-            return context.Users.FirstOrDefault(user => user.Email == email);
+            return await context.Users.FindAsync(email);
         }
 
         //TODO: implement add
-        public User AddUser(User user)
+        public Task<User> AddUser(User user)
         {
             throw new NotImplementedException();
         }
