@@ -11,6 +11,6 @@ namespace PxlTeambuilderApi.Data.Domain
         public string Description { get; set; }
         public int MaxStudentPerGroup { get; set; }
 
-        public ICollection<User> Users { get; set; }
+        public virtual ICollection<UserProjects> UserProjects { get; set; }
     }
 }

@@ -12,6 +12,6 @@ namespace PxlTeambuilderApi.Data.Domain
         public string Password { get; set; }
         public UserRole Role { get; set; }
 
-        public ICollection<Project> Projects { get; set; }
+        public virtual ICollection<UserProjects> UserProjects { get; set; }
     }
 }
