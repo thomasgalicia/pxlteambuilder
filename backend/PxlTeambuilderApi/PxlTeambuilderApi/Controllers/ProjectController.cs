@@ -36,6 +36,18 @@ namespace PxlTeambuilderApi.Controllers
                 return NotFound(ex.Message);
             }
         }
-      
+
+        [HttpPost]
+        [Route("new")]
+        public async Task<IActionResult> AddNewProject([FromBody] Project project)
+        {
+            Project insertedEntity = await projectService.AddProjectAsync(project);
+            if(insertedEntity == null)
+            {
+                return BadRequest();
+            }
+
+            return StatusCode(201);
+        }
     }
 }

@@ -30,9 +30,15 @@ namespace PxlTeambuilderApi.Services.Implementations
         }
 
         //TODO: implement
+        //TODO: generate id for input project
+        //TODO: add default group unnasigned to project
         public async Task<Project> AddProjectAsync(Project project)
         {
-            throw new NotImplementedException();
+            project.ProjectId =  $"PXL-{Guid.NewGuid().ToString()}";
+            project.Groups = new List<Group>();
+            Group defaultGroup = GenerateDefaultGroup(project.ProjectId);
+            project.Groups.Add(defaultGroup);
+            return await projectRepository.AddProjectAsync(project);
         }
 
         //TODO: implement
@@ -40,6 +46,16 @@ namespace PxlTeambuilderApi.Services.Implementations
         public async Task<Project> UpdateProjectAsync(string projectId, Project project)
         {
             throw new NotImplementedException();
+        }
+
+        private Group GenerateDefaultGroup(string projectId)
+        {
+            return new Group()
+            {
+                GroupId = Guid.NewGuid().ToString(),
+                Name = "Unassigned",
+                ProjectId = projectId
+            };
         }
     }
 }
