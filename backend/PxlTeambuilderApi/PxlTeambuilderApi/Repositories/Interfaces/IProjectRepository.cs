@@ -8,8 +8,8 @@ namespace PxlTeambuilderApi.Repositories.Implementations
 {
     public interface IProjectRepository
     {
-        Project GetProjectById(string projectId);
-        Project AddProject(Project project);
-        Project UpdateProject(string projectId, Project project);
+        Task<Project> GetProjectByIdAsync(string projectId);
+        Task<Project> AddProjectAsync(Project project);
+        Task<Project> UpdateProjectAsync(string projectId, Project project);
     }
 }
