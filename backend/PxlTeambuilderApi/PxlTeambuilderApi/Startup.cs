@@ -32,16 +32,7 @@ namespace PxlTeambuilderApi
         {
             services.AddMvc();
 
-           /* PxlTeamBuilderContext context = new PxlTeamBuilderContext();
-            User user = new User
-            {
-                Email = "thomas@student.pxl.be",
-                Name = "thomas",
-                Password = "thomas",
-                Role = Data.Enums.UserRole.Student
-            };
-            context.Users.Add(user);
-            context.SaveChanges();*/
+            DatabaseSeeder.SeedDatabase(false);
 
             var builder = DependencyContainer.RegisterDependencies(services);
             this.ApplicationContainer = builder.Build();
