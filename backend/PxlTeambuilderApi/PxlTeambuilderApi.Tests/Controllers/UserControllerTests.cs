@@ -34,10 +34,9 @@ namespace PxlTeambuilderApi.Tests.Controllers
         public void GetAllProjectsFromUserShouldReturnOKWithEmptyListIfUserHasNoProjects()
         {
             int userId = random.Next();
-            ICollection<Project> projects = new List<Project>();
-           
+
             User user = new User();
-            user.Projects = projects;
+            user.UserProjects = new List<UserProject>();
             
             userServiceMock.Setup(mock => mock.GetUserByUserIdAsync(userId)).ReturnsAsync(user);
 
@@ -45,7 +44,7 @@ namespace PxlTeambuilderApi.Tests.Controllers
             var responseList = (ICollection<Project>) result.Value;
 
             Assert.NotNull(result);
-            Assert.AreEqual(projects.Count, responseList.Count);
+            Assert.AreEqual(0, responseList.Count);
             userServiceMock.Verify(mock => mock.GetUserByUserIdAsync(userId), Times.Once);
         }
 
@@ -53,19 +52,23 @@ namespace PxlTeambuilderApi.Tests.Controllers
         public void GetAllProjectsFromUserShouldReturnOKWithProjectListIfUserHasProjects()
         {
             int userId = random.Next();
-            ICollection<Project> projects = new List<Project>();
-            projects.Add(projectBuilder.WithUserId(userId).Build());
+            Project project = projectBuilder.WithTitle(Guid.NewGuid().ToString()).Build();
+            UserProject userProject = new UserProject
+            {
+                Project = project
+            };
 
             User user = new User();
-            user.Projects = projects;
-
+            user.UserProjects = new List<UserProject>();
+            user.UserProjects.Add(userProject);
+            
             userServiceMock.Setup(mock => mock.GetUserByUserIdAsync(userId)).ReturnsAsync(user);
 
             var result = userController.GetAllProjectsFromUser(userId).Result as OkObjectResult;
-            var responseList = (ICollection<Project>) result.Value;
+            var responseList = (List<Project>) result.Value;
 
             Assert.NotNull(result);
-            Assert.AreEqual(projects, responseList);
+            Assert.AreEqual(project, responseList[0]);
             userServiceMock.Verify(mock => mock.GetUserByUserIdAsync(userId), Times.Once);
         }
     }

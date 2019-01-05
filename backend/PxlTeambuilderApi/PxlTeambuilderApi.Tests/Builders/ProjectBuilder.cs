@@ -19,12 +19,6 @@ namespace PxlTeambuilderApi.Tests.Builders
             return project;
         }
 
-        public ProjectBuilder WithUserId(int userId)
-        {
-            project.UserId = userId;
-            return this;
-        }
-
         public ProjectBuilder WithProjectId(string projectId)
         {
             project.ProjectId = projectId;
