@@ -36,7 +36,7 @@ namespace PxlTeambuilderApi.Tests.Controllers
             int userId = random.Next();
 
             User user = new User();
-            user.UserProjects = new List<UserProject>();
+            user.UserProjectDetails = new List<UserProjectDetail>();
             
             userServiceMock.Setup(mock => mock.GetUserByUserIdAsync(userId)).ReturnsAsync(user);
 
@@ -53,14 +53,14 @@ namespace PxlTeambuilderApi.Tests.Controllers
         {
             int userId = random.Next();
             Project project = projectBuilder.WithTitle(Guid.NewGuid().ToString()).Build();
-            UserProject userProject = new UserProject
+            UserProjectDetail userProject = new UserProjectDetail
             {
                 Project = project
             };
 
             User user = new User();
-            user.UserProjects = new List<UserProject>();
-            user.UserProjects.Add(userProject);
+            user.UserProjectDetails = new List<UserProjectDetail>();
+            user.UserProjectDetails.Add(userProject);
             
             userServiceMock.Setup(mock => mock.GetUserByUserIdAsync(userId)).ReturnsAsync(user);
 

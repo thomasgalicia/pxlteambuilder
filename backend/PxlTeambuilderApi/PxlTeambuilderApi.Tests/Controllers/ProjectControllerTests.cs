@@ -19,10 +19,23 @@ namespace PxlTeambuilderApi.Tests.Controllers
         private ProjectController projectController;
         private Mock<IProjectService> projectServiceMock;
         private ProjectBuilder projectBuilder;
+        private Random random;
+        private int userId;
+        private string projectId;
+        private string groupId;
+
+
+        private const string ERROR_MISSING_QUERYPARAM_MESSAGE = "missing query parameter(s)";
+        private const string ERROR_ALREADY_PARTICIPATING_MESSAGE = "You are already participating in the project";
+        private const string ERROR_GROUP_FULL_MESSAGE = "Group is full";
 
         [SetUp]
         public void Setup()
-        { 
+        {
+            random = new Random();
+            userId = random.Next();
+            projectId = Guid.NewGuid().ToString();
+            groupId = Guid.NewGuid().ToString();
             projectBuilder = new ProjectBuilder();
             projectServiceMock = new Mock<IProjectService>();
             projectController = new ProjectController(projectServiceMock.Object);
@@ -84,6 +97,90 @@ namespace PxlTeambuilderApi.Tests.Controllers
             Assert.NotNull(result);
             Assert.AreEqual(201, responseCode);
             projectServiceMock.Verify(mock => mock.AddProjectAsync(project), Times.Once);
+        }
+
+        [Test]
+        public void ParticipateToProjectShouldReturnBadRequestWithErrorMessageWhenNoUserIdIsPresent()
+        {          
+            var result = projectController.ParticipateToProject(0, projectId, groupId).Result as BadRequestObjectResult ;
+            var errorMessage = (string)result.Value;
+
+            Assert.NotNull(result);
+            Assert.AreEqual(ERROR_MISSING_QUERYPARAM_MESSAGE, errorMessage);
+            projectServiceMock.Verify(mock => mock.AddUserToGroup(0,projectId,groupId), Times.Never);
+        }
+
+        [Test]
+        public void ParticipateToProjectShouldReturnBadRequestWithErrorMessageWhenNoProjectIdIsPresent()
+        {
+            projectId = null;
+            var result = projectController.ParticipateToProject(userId, projectId, groupId).Result as BadRequestObjectResult;
+            var errorMessage = (string)result.Value;
+
+            Assert.NotNull(result);
+            Assert.AreEqual(ERROR_MISSING_QUERYPARAM_MESSAGE, errorMessage);
+            projectServiceMock.Verify(mock => mock.AddUserToGroup(userId, projectId, groupId), Times.Never);
+        }
+
+        [Test]
+        public void ParticipateToProjectShouldReturnBadRequestWithErrorMessageWhenNoGroupIdIsPresent()
+        {
+            groupId = null;
+            var result = projectController.ParticipateToProject(userId, projectId, groupId).Result as BadRequestObjectResult;
+            var errorMessage = (string)result.Value;
+
+            Assert.NotNull(result);
+            Assert.AreEqual(ERROR_MISSING_QUERYPARAM_MESSAGE, errorMessage);
+            projectServiceMock.Verify(mock => mock.AddUserToGroup(userId, projectId, groupId), Times.Never);
+        }
+
+        [Test]
+        public void ParticipateToProjectShouldReturnOkWhenAddedToGroupSuccessfullyInDatabase()
+        {
+            projectServiceMock.Setup(mock => mock.AddUserToGroup(userId, projectId, groupId)).ReturnsAsync(() => true);
+
+            var result = projectController.ParticipateToProject(userId, projectId, groupId).Result as OkResult;
+
+            Assert.NotNull(result);
+            projectServiceMock.Verify(mock => mock.AddUserToGroup(userId, projectId, groupId), Times.Once);
+        }
+
+        [Test]
+        public void ParticipateToProjectShouldReturnBadRequestWhenAddedToGroupFailedInDatabase()
+        {
+            projectServiceMock.Setup(mock => mock.AddUserToGroup(userId, projectId, groupId)).ReturnsAsync(false);
+
+            var result = projectController.ParticipateToProject(userId, projectId, groupId).Result as BadRequestResult;
+
+            Assert.NotNull(result);
+            projectServiceMock.Verify(mock => mock.AddUserToGroup(userId, projectId, groupId), Times.Once);
+        }
+
+        [Test]
+        public void ParticipateToProjectShouldReturnBadRequestWhenUserAlreadyInProjectExceptionOccurs()
+        {
+            projectServiceMock.Setup(mock => mock.AddUserToGroup(userId, projectId, groupId)).Throws<UserAlreadyInProjectException>();
+
+            var result = projectController.ParticipateToProject(userId, projectId, groupId).Result as BadRequestObjectResult;
+            var errorMessage = (string)result.Value;
+
+            Assert.NotNull(result);
+            Assert.AreEqual(ERROR_ALREADY_PARTICIPATING_MESSAGE, errorMessage);
+            projectServiceMock.Verify(mock => mock.AddUserToGroup(userId, projectId, groupId), Times.Once);
+
+        }
+
+        [Test]
+        public void ParticipateToProjectShouldReturnBadRequestWhenMaxStudentsBoundsExceptionOccurs()
+        {
+            projectServiceMock.Setup(mock => mock.AddUserToGroup(userId, projectId, groupId)).Throws<MaxStudentsBoundsException>();
+
+            var result = projectController.ParticipateToProject(userId, projectId, groupId).Result as BadRequestObjectResult;
+            var errorMessage = (string)result.Value;
+
+            Assert.NotNull(result);
+            Assert.AreEqual(ERROR_GROUP_FULL_MESSAGE, errorMessage);
+            projectServiceMock.Verify(mock => mock.AddUserToGroup(userId, projectId, groupId), Times.Once);
         }
     }
 }

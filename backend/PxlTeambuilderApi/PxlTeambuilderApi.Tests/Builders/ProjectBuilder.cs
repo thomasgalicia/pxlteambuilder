@@ -30,5 +30,11 @@ namespace PxlTeambuilderApi.Tests.Builders
             project.Title = title;
             return this;
         }
+
+        public ProjectBuilder WithUserId(int userId)
+        {
+            project.UserId = userId;
+            return this;
+        }
     }
 }
