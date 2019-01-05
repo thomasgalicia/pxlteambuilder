@@ -14,7 +14,7 @@ namespace PxlTeambuilderApi.Data.Domain
         public UserRole Role { get; set; }
 
         //navigation properties
-        public virtual ICollection<UserGroup> UserGroups { get; set; } 
-        public virtual ICollection<UserProject> UserProjects { get; set; }
+        public virtual ICollection<UserProjectDetail> UserProjectDetails { get; set; }
+        public virtual ICollection<Project> CreatedProjects { get; set; }
     }
 }

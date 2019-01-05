@@ -10,6 +10,9 @@ namespace PxlTeambuilderApi.Data.Domain
         [JsonProperty("projectId")]
         public string ProjectId { get; set; }
 
+        [JsonProperty("userId")]
+        public int UserId { get; set; }
+
         [JsonProperty("title")]
         public string Title { get; set; }
 
@@ -21,6 +24,7 @@ namespace PxlTeambuilderApi.Data.Domain
 
         //navigation properties
         public virtual ICollection<Group> Groups { get; set; }
-        public virtual ICollection<UserProject> UserProjects{ get; set; }
+        public virtual ICollection<UserProjectDetail> UserProjectDetails { get; set; }
+        public virtual User Creator { get; set; }
     }
 }
