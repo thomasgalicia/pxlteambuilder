@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PxlTeambuilderApi.Data;
 
 namespace PxlTeambuilderApi.Data.Migrations
 {
     [DbContext(typeof(PxlTeamBuilderContext))]
-    partial class PxlTeamBuilderContextModelSnapshot : ModelSnapshot
+    [Migration("20190105104307_rework-relationship-user-project")]
+    partial class reworkrelationshipuserproject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,7 +94,7 @@ namespace PxlTeambuilderApi.Data.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("UserProjects");
+                    b.ToTable("UserProject");
                 });
 
             modelBuilder.Entity("PxlTeambuilderApi.Data.Domain.Group", b =>

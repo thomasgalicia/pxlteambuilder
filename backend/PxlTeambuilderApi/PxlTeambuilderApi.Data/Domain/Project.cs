@@ -10,9 +10,6 @@ namespace PxlTeambuilderApi.Data.Domain
         [JsonProperty("projectId")]
         public string ProjectId { get; set; }
 
-        [JsonProperty("userId")]
-        public int UserId { get; set; }
-
         [JsonProperty("title")]
         public string Title { get; set; }
 
@@ -23,7 +20,7 @@ namespace PxlTeambuilderApi.Data.Domain
         public int MaxStudentsPerGroup { get; set; }
 
         //navigation properties
-        public ICollection<Group> Groups { get; set; }
-        public User User { get; set; }
+        public virtual ICollection<Group> Groups { get; set; }
+        public virtual ICollection<UserProject> UserProjects{ get; set; }
     }
 }

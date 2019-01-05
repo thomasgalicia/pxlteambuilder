@@ -12,7 +12,7 @@ namespace PxlTeambuilderApi.Data.Domain
         public string ProjectId { get; set; }
 
         //navigation properties
-        public ICollection<UserGroup> UserGroups { get; set; }
-        public Project Project { get; set; }
+        public virtual ICollection<UserGroup> UserGroups { get; set; }
+        public virtual Project Project { get; set; }
     }
 }
