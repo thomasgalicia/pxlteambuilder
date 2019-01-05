@@ -48,6 +48,22 @@ namespace PxlTeambuilderApi.Services.Implementations
             throw new NotImplementedException();
         }
 
+        public async Task<bool> AddUserToGroup(int userId,string projectId ,string groupId)
+        {
+            if (await projectRepository.UserIsAlreadyInProject(projectId, userId))
+            {
+                throw new UserAlreadyInProjectException();
+            }
+
+            int rowsAdded = await projectRepository.AddUserToGroup(userId, projectId, groupId);
+            if(rowsAdded == 1)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private Group GenerateDefaultGroup(string projectId)
         {
             return new Group()

@@ -49,5 +49,38 @@ namespace PxlTeambuilderApi.Controllers
 
             return StatusCode(201);
         }
+
+       [HttpPost]
+       [Route("participate")]
+       public async Task<IActionResult> ParticipateToProject([FromQuery(Name = "uid")] int userId,[FromQuery(Name = "pid")] string projectId,[FromQuery(Name = "gid")] string groupId)
+        {
+            if(userId == 0 | projectId == null | groupId == null)
+            {
+                return BadRequest("missing query parameter(s)");
+            }
+
+            try
+            {
+                bool success = await projectService.AddUserToGroup(userId, projectId, groupId);
+
+                if (success)
+                {
+                    return Ok();
+                }
+
+                return BadRequest();
+            }
+
+            catch (UserAlreadyInProjectException)
+            {
+                return BadRequest("You are already participating in the project");
+            }
+
+            catch (MaxStudentsBoundsException)
+            {
+                return BadRequest("Group is full");
+            }
+  
+        }
     }
 }

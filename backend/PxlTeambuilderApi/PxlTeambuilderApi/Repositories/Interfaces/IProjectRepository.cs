@@ -11,5 +11,7 @@ namespace PxlTeambuilderApi.Repositories.Implementations
         Task<Project> GetProjectByIdAsync(string projectId);
         Task<Project> AddProjectAsync(Project project);
         Task<Project> UpdateProjectAsync(string projectId, Project project);
+        Task<int> AddUserToGroup(int userId, string projectId, string groupId);
+        Task<bool> UserIsAlreadyInProject(string projectId,int userId);
     }
 }

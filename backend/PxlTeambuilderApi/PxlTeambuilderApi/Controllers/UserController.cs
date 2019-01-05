@@ -25,7 +25,12 @@ namespace PxlTeambuilderApi.Controllers
         public async Task<IActionResult> GetAllProjectsFromUser(int userId)
         {
             User user = await userService.GetUserByUserIdAsync(userId);
-            return Ok(user.Projects);
+            List<Project> projects = new List<Project>();
+            foreach(UserProjectDetail userProjectDetail in user.UserProjectDetails){
+                projects.Add(userProjectDetail.Project);
+            }
+
+            return Ok(projects);
         }
 
     }

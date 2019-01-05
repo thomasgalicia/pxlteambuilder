@@ -62,14 +62,14 @@ namespace PxlTeambuilderApi.Bootstrap
             IEnumerable<User> users = context.Users.ToList();
             IEnumerable<Project> projects = context.Projects.ToList();
             IEnumerable<Group> groups = context.Groups.ToList();
-            IEnumerable<UserGroup> userGroups = context.UserGroups.ToList();
-            IEnumerable<UserProject> userProjects = context.UserProjects.ToList();
+            //IEnumerable<UserGroup> userGroups = context.UserGroups.ToList();
+           // IEnumerable<UserProject> userProjects = context.UserProjects.ToList();
 
             context.RemoveRange(users);
             context.RemoveRange(projects);
             context.RemoveRange(groups);
-            context.RemoveRange(userGroups);
-            context.RemoveRange(userProjects);
+            //context.RemoveRange(userGroups);
+            //context.RemoveRange(userProjects);
             context.SaveChanges();
         }
     }
