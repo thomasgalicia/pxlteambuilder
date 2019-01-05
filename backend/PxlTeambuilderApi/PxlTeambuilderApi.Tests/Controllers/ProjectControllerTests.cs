@@ -59,5 +59,31 @@ namespace PxlTeambuilderApi.Tests.Controllers
             Assert.AreEqual(project, responseBody);
             projectServiceMock.Verify(mock => mock.GetProjectByIdAsync(projectId), Times.Once);
         }
+
+        [Test]
+        public void AddNewProjectShouldReturnBadRequestWhenNoEntityIsInsertedInDatabase()
+        {
+            Project project = projectBuilder.Build();
+            projectServiceMock.Setup(mock => mock.AddProjectAsync(project)).ReturnsAsync(() => null);
+
+            var result = projectController.AddNewProject(project).Result as BadRequestResult;
+
+            Assert.NotNull(result);
+            projectServiceMock.Verify(mock => mock.AddProjectAsync(project), Times.Once);
+        }
+
+        [Test]
+        public void AddNewProjectShouldReturnCreatedWhenEntityIsSuccesfullyInsertedInDatabase()
+        {
+            Project project = projectBuilder.WithTitle(Guid.NewGuid().ToString()).Build();
+            projectServiceMock.Setup(mock => mock.AddProjectAsync(project)).ReturnsAsync(project);
+
+            var result = projectController.AddNewProject(project).Result as StatusCodeResult;
+            var responseCode = result.StatusCode;
+
+            Assert.NotNull(result);
+            Assert.AreEqual(201, responseCode);
+            projectServiceMock.Verify(mock => mock.AddProjectAsync(project), Times.Once);
+        }
     }
 }
