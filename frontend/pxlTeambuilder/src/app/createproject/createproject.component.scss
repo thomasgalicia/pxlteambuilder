@@ -1,0 +1,24 @@
+.container-flex{
+    flex-direction: column;
+    
+    h1{
+        align-self: center;
+    }
+
+    .container-project-creator{
+        float: left;
+
+        .row{
+            margin-left: 2px;
+            margin-right: 2px;
+
+            label{
+                padding-left: 0;
+            }
+
+            button{
+                margin-top: 8px; 
+            }
+        }
+    }
+}

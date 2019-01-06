@@ -1,0 +1,28 @@
+@import '../../variables.scss';
+
+.container-flex{
+    flex-direction: column;
+    
+    h1{
+        align-self: center;
+        margin-bottom: 2%;
+    }
+
+    ul{
+        
+        width:100%;
+    }
+
+    li{
+        p{
+            float: left;
+        }
+
+        a{
+            float: left;
+            color: map-get($colors, primary-green);
+        }
+    }
+
+
+}
