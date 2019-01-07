@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\20190105124833_readd-relation-user-project-creator.cs" />
+    <Compile Remove="Migrations\20190107100646_initial-migration.cs" />
   </ItemGroup>
 
   <ItemGroup>

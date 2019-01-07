@@ -6,7 +6,7 @@ namespace PxlTeambuilderApi.Data
     public class PxlTeamBuilderContext : DbContext
     {
 
-        private const string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog = PxlTeambuilderDb; Integrated Security = True; Connect Timeout = 30; Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        private const string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=PxlTeamBuilderDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         public DbSet<User> Users { get; set; }
         public DbSet<Project> Projects { get; set; }

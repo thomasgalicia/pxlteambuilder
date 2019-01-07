@@ -9,8 +9,8 @@ using PxlTeambuilderApi.Data;
 namespace PxlTeambuilderApi.Data.Migrations
 {
     [DbContext(typeof(PxlTeamBuilderContext))]
-    [Migration("20190104140533_add-userId")]
-    partial class adduserId
+    [Migration("20190107100830_initial-migration")]
+    partial class initialmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -75,43 +75,53 @@ namespace PxlTeambuilderApi.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("PxlTeambuilderApi.Data.Domain.UserGroup", b =>
+            modelBuilder.Entity("PxlTeambuilderApi.Data.Domain.UserProjectDetail", b =>
                 {
                     b.Property<int>("UserId");
 
+                    b.Property<string>("ProjectId");
+
                     b.Property<string>("GroupId");
 
-                    b.HasKey("UserId", "GroupId");
+                    b.HasKey("UserId", "ProjectId");
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("UserGroups");
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("UserProjectDetails");
                 });
 
             modelBuilder.Entity("PxlTeambuilderApi.Data.Domain.Group", b =>
                 {
                     b.HasOne("PxlTeambuilderApi.Data.Domain.Project", "Project")
                         .WithMany("Groups")
-                        .HasForeignKey("ProjectId");
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("PxlTeambuilderApi.Data.Domain.Project", b =>
                 {
-                    b.HasOne("PxlTeambuilderApi.Data.Domain.User", "User")
-                        .WithMany("Projects")
+                    b.HasOne("PxlTeambuilderApi.Data.Domain.User", "Creator")
+                        .WithMany("CreatedProjects")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("PxlTeambuilderApi.Data.Domain.UserGroup", b =>
+            modelBuilder.Entity("PxlTeambuilderApi.Data.Domain.UserProjectDetail", b =>
                 {
                     b.HasOne("PxlTeambuilderApi.Data.Domain.Group", "Group")
-                        .WithMany("UserGroups")
+                        .WithMany("UserProjectDetails")
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("PxlTeambuilderApi.Data.Domain.Project", "Project")
+                        .WithMany("UserProjectDetails")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("PxlTeambuilderApi.Data.Domain.User", "User")
-                        .WithMany("UserGroups")
+                        .WithMany("UserProjectDetails")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
