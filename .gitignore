@@ -604,3 +604,7 @@ __pycache__/
 # tools/
 
 # End of https://www.gitignore.io/api/aspnetcore
+
+# JWT files
+
+*jwtconfig*.json
