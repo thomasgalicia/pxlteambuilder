@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PxlTeambuilderApi.Services.Implementations;
+using PxlTeambuilderApi.Services.Interfaces;
 
 namespace PxlTeambuilderApi.Bootstrap
 {
@@ -16,6 +18,7 @@ namespace PxlTeambuilderApi.Bootstrap
             if (doSeed)
             {
                 PxlTeamBuilderContext context = new PxlTeamBuilderContext();
+                IPasswordService passwordService = new PasswordService();
                 ClearDatabase(context);
 
                 context.Users.Add(new User
@@ -23,35 +26,35 @@ namespace PxlTeambuilderApi.Bootstrap
                     Name = "thomas",
                     Email = "thomas@student.pxl.be",
                     Role = UserRole.Student,
-                    Password = "thomas"
+                    Password = passwordService.GenerateHash("thomas")
                 });
                 context.Users.Add(new User
                 {
                     Name = "lukas",
                     Email = "lukas@student.pxl.be",
                     Role = UserRole.Student,
-                    Password = "lukas"
+                    Password = passwordService.GenerateHash("lukas")
                 });
                 context.Users.Add(new User
                 {
                     Name = "ahmet",
                     Email = "ahmet@student.pxl.be",
                     Role = UserRole.Student,
-                    Password = "ahmet"
+                    Password = passwordService.GenerateHash("ahmet")
                 });
                 context.Users.Add(new User
                 {
                     Name = "sergey",
                     Email = "sergey@student.pxl.be",
                     Role = UserRole.Student,
-                    Password = "sergey"
+                    Password = passwordService.GenerateHash("sergey")
                 });
                 context.Users.Add(new User
                 {
                     Name = "kris",
                     Email = "kris@student.pxl.be",
                     Role = UserRole.Student,
-                    Password = "kris"
+                    Password = passwordService.GenerateHash("kris")
                 });
                 context.SaveChanges();
             }
