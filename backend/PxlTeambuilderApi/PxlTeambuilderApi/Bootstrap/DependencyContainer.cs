@@ -27,6 +27,7 @@ namespace PxlTeambuilderApi.Bootstrap
             //services
             builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
             builder.RegisterType<ProjectService>().As<IProjectService>().InstancePerLifetimeScope();
+            builder.RegisterType<PasswordService>().As<IPasswordService>().InstancePerLifetimeScope();
 
             //othes
             builder.RegisterType<PxlTeamBuilderContext>().InstancePerLifetimeScope();
