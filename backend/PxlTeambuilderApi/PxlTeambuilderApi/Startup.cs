@@ -26,10 +26,7 @@ namespace PxlTeambuilderApi
 
         public Startup(IConfiguration configuration)
         {
-            Configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json").AddJsonFile("jwtconfig.json")
-                .Build();
+            Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -43,8 +40,11 @@ namespace PxlTeambuilderApi
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
+                        ValidateAudience = true,
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = Configuration.GetValue<string>("JwtIssuer"),
+                        ValidAudience = Configuration.GetValue<string>("JwtAudience"),
+                        ValidateLifetime = true,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("JwtSecretKey")))
                     };
                 });
@@ -60,6 +60,7 @@ namespace PxlTeambuilderApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseAuthentication();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
