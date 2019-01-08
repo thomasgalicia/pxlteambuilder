@@ -9,6 +9,7 @@ namespace PxlTeambuilderApi.Repositories.Interfaces
     public interface IUserRepository
     {
        Task<User> GetUserByUserIdAsync(int userId);
+       Task<User> GetUserByEmail(string email);
        Task<User> AddUserAsync(User user);
     }
 }
