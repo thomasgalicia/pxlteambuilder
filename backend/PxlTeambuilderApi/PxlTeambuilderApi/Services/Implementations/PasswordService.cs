@@ -25,7 +25,7 @@ namespace PxlTeambuilderApi.Services.Implementations
         public bool IsSame(string rawPassword, string hashPassword)
         {
             string generatedHash = GenerateHash(rawPassword);
-            return rawPassword == hashPassword;
+            return generatedHash == hashPassword;
         }
     }
 }
