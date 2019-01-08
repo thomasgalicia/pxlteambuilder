@@ -19,6 +19,7 @@ namespace PxlTeambuilderApi
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration(options => options.AddJsonFile("jwtconfig.json",optional: false, reloadOnChange: false))
                 .UseStartup<Startup>()
                 .Build();
     }
