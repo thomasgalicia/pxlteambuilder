@@ -29,7 +29,7 @@ namespace PxlTeambuilderApi.Bootstrap
             builder.RegisterType<ProjectService>().As<IProjectService>().InstancePerLifetimeScope();
             builder.RegisterType<PasswordService>().As<IPasswordService>().InstancePerLifetimeScope();
 
-            //othes
+            //others
             builder.RegisterType<PxlTeamBuilderContext>().InstancePerLifetimeScope();
 
             builder.Populate(services);
