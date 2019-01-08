@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PxlTeambuilderApi.Exceptions;
 
 namespace PxlTeambuilderApi.Services.Implementations
 {
@@ -21,6 +22,17 @@ namespace PxlTeambuilderApi.Services.Implementations
         public async Task<User> GetUserByUserIdAsync(int userId)
         {
             return await userRepository.GetUserByUserIdAsync(userId);
+        }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            User user = await userRepository.GetUserByEmail(email);
+            if (user == null)
+            {
+                throw new UserNotFoundException();
+            }
+
+            return user;
         }
 
         //TODO: hash password before adding to database
