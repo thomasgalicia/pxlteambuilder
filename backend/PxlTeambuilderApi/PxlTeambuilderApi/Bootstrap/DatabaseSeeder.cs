@@ -52,8 +52,8 @@ namespace PxlTeambuilderApi.Bootstrap
                 context.Users.Add(new User
                 {
                     Name = "kris",
-                    Email = "kris@student.pxl.be",
-                    Role = UserRole.Student,
+                    Email = "kris@pxl.be",
+                    Role = UserRole.Teacher,
                     Password = passwordService.GenerateHash("kris")
                 });
                 context.SaveChanges();
