@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PxlTeambuilderApi.Data.Domain;
@@ -39,6 +40,7 @@ namespace PxlTeambuilderApi.Controllers
 
         [HttpPost]
         [Route("new")]
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> AddNewProject([FromBody] Project project)
         {
             Project insertedEntity = await projectService.AddProjectAsync(project);
