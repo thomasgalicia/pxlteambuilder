@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -49,6 +49,7 @@ namespace PxlTeambuilderApi
                     };
                 });
             services.AddMvc();
+            services.AddCors();
 
             DatabaseSeeder.SeedDatabase(false);
 
@@ -60,6 +61,9 @@ namespace PxlTeambuilderApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCors(builder => {
+                builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials();
+            });
             app.UseAuthentication();
             if (env.IsDevelopment())
             {
