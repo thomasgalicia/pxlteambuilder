@@ -23,8 +23,13 @@ namespace PxlTeambuilderApi.Data.Domain
         public int MaxStudentsPerGroup { get; set; }
 
         //navigation properties
+        [JsonIgnore]
         public virtual ICollection<Group> Groups { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<UserProjectDetail> UserProjectDetails { get; set; }
+
+        [JsonIgnore]
         public virtual User Creator { get; set; }
     }
 }
