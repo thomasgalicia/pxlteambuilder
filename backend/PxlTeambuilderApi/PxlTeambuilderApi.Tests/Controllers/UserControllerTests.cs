@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using NUnit.Framework;
 using PxlTeambuilderApi.Controllers;
@@ -17,6 +18,8 @@ namespace PxlTeambuilderApi.Tests.Controllers
 
         private UserController userController;
         private Mock<IUserService> userServiceMock;
+        private Mock<IPasswordService> passwordServiceMock;
+        private Mock<IConfiguration> configurationMock;
         private Random random;
         private ProjectBuilder projectBuilder;
 
@@ -24,9 +27,11 @@ namespace PxlTeambuilderApi.Tests.Controllers
         public void Setup()
         {
             userServiceMock = new Mock<IUserService>();
+            passwordServiceMock = new Mock<IPasswordService>();
+            configurationMock = new Mock<IConfiguration>();
             random = new Random();
             projectBuilder = new ProjectBuilder();
-            userController = new UserController(userServiceMock.Object);
+            userController = new UserController(userServiceMock.Object,passwordServiceMock.Object,configurationMock.Object);
         }
 
 
