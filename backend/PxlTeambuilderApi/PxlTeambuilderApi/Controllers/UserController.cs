@@ -43,7 +43,6 @@ namespace PxlTeambuilderApi.Controllers
 
         [HttpPost]
         [Route("login")]
-        //TODO: add jwt token generation and pass to client.
         public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
         {
             try
@@ -61,7 +60,13 @@ namespace PxlTeambuilderApi.Controllers
                         .AddAudience(configuration.GetValue<string>("JwtAudience"))
                         .Build();
 
-                    return Ok(new {token = token.Value});
+                    return Ok(new LoginResponseModel {
+                        Token = token.Value,
+                        Email = user.Email,
+                        Id = user.Id,
+                        Name = user.Name,
+                        Role = role
+                    });
                 }
 
                 return BadRequest();
