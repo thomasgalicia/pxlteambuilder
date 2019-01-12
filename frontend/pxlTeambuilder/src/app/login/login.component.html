@@ -7,9 +7,9 @@
     <div class="row">
         <div class="form-group" class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4 offset-sm-1 offset-md-2 offset-lg-3 offset-xl-4"> 
             <label for="email">Email:</label>
-            <input type="text" id="email" class="form-control">
+            <input type="text" id="email" class="form-control" [(ngModel)]="email">
             <label for="password">Password:</label>
-            <input type="password" id="password" class="form-control">
+            <input type="password" id="password" class="form-control" [(ngModel)]="password">
             <button class="btn btn-primary" id="btn-login" (click)="login()">Login</button>
           </div>
     </div>
