@@ -3,11 +3,22 @@
 
     <div class="container-fluid tile-container">
      <div class="row">
-        <div class="btn btn-primary card col-4 offset-2" (click)="newProjectClick()">
-            <div class="card-body">
-              <h5 class="card-title">Create Project</h5>
-            </div>
-        </div>
+
+        <ng-container *ngIf="isTeacher()">
+                <div class="btn btn-primary card col-4 offset-2" (click)="newProjectClick()">
+                    <div class="card-body">
+                        <h5 class="card-title">Create Project</h5>
+                    </div>
+                </div>
+        </ng-container>
+       
+        <ng-container *ngIf="!isTeacher()">
+                <div class="btn btn-primary card col-4 offset-2" (click)="participateClick()">
+                    <div class="card-body">
+                        <h5 class="card-title">Particpate to project</h5>
+                    </div>
+                </div>
+        </ng-container>
 
           <div class="btn btn-primary card col-4" (click)="viewProjectsClick()">
               <div class="card-body">

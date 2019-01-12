@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +9,11 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private router : Router) { }
+  private role : string
+
+  constructor(private router : Router, private auth : AuthService) { 
+    this.role = this.auth.User.Role
+  }
 
   ngOnInit() {
   }
@@ -19,5 +24,13 @@ export class HomeComponent implements OnInit {
 
   viewProjectsClick(){
     this.router.navigate(['/overview'])
+  }
+
+  participateClick(){
+    this.router.navigate(['/participate'])
+  }
+
+  isTeacher(){
+    return this.role === 'teacher'
   }
 }
