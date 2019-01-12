@@ -1,0 +1,23 @@
+<div class="outer-container container-flex">
+    
+  <div class="container-wrapper">
+    <div class="container-search">
+        <label for="projectId">Project Id:</label>
+        <input id="projectId" class="form-control" [(ngModel)]="projectId">
+        <button class="btn btn-primary ld-ext-right" (click)="search()">
+          Search
+          <div class="spinner ld ld-ring ld-spin" *ngIf="loading"></div>
+        </button>
+        
+    </div>
+
+    <div class="container-select" *ngIf="showSelect">
+      <select class="form-control">
+        <option>group1</option>
+        <option>group2</option>
+        <option>group3</option>
+      </select>
+      <button class="btn btn-primary">Participate</button>
+    </div>
+  </div>
+</div>

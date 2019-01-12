@@ -23,5 +23,14 @@ label{
         background-color: map-get($colors, primary-green);
         border-color: map-get($colors, primary-green);
     }
+
+    &:disabled{
+        background-color: map-get($colors, primary-green);
+        border-color: map-get($colors, primary-green);
+    }
+}
+
+.spinner{
+    margin-left: 8px;
 }
 
