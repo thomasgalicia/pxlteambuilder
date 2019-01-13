@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,6 +17,7 @@ namespace PxlTeambuilderApi.Controllers
     public class ProjectController : Controller
     {
         private readonly IProjectService projectService;
+        private const string ROLE_CLAIM_TYPE = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
 
         public ProjectController(IProjectService projectService)
         {
@@ -36,6 +38,25 @@ namespace PxlTeambuilderApi.Controllers
             {
                 return NotFound(ex.Message);
             }
+        }
+
+        [HttpGet]
+        [Route("user/{userId}")]
+        [Authorize]
+        public IActionResult GetAllProjectsByUserId(int userId)
+        {
+            Claim roleClaim = HttpContext.User.Claims.Where(claim => claim.Type == ROLE_CLAIM_TYPE).First();
+            ICollection<Project> projects = projectService.GetAllProjectsByUserId(userId, roleClaim.Value);
+            return Ok(projects);
+        }
+
+        [HttpGet]
+        [Route("{projectId}/groups")]
+        [Authorize(Roles = "Teacher")]
+        public async Task<IActionResult> GetAllGroupsByProjectId(string projectId)
+        {
+            ICollection<Group> groups = await projectService.GetGroupsFromProjectAsync(projectId);
+            return Ok(groups);
         }
 
         [HttpPost]

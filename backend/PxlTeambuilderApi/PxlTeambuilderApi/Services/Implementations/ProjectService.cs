@@ -1,4 +1,5 @@
 ﻿using PxlTeambuilderApi.Data.Domain;
+using PxlTeambuilderApi.Data.Enums;
 using PxlTeambuilderApi.Exceptions;
 using PxlTeambuilderApi.Repositories.Implementations;
 using PxlTeambuilderApi.Services.Interfaces;
@@ -18,6 +19,17 @@ namespace PxlTeambuilderApi.Services.Implementations
             this.projectRepository = projectRepository;
         }
 
+        public ICollection<Project> GetAllProjectsByUserId(int userId, string role)
+        {
+            UserRole userRole = UserRole.Student;
+            if(role.ToLower() == "teacher")
+            {
+                userRole = UserRole.Teacher;
+            }
+
+            return projectRepository.GetAllProjectsByUserId(userId, userRole);
+        }
+
         public async Task<Project> GetProjectByIdAsync(string projectId)
         {
             Project project = await projectRepository.GetProjectByIdAsync(projectId);
@@ -29,9 +41,11 @@ namespace PxlTeambuilderApi.Services.Implementations
             return project;
         }
 
-        //TODO: implement
-        //TODO: generate id for input project
-        //TODO: add default group unnasigned to project
+        public async Task<ICollection<Group>> GetGroupsFromProjectAsync(string projectId)
+        {
+            return await projectRepository.GetAllGroupsOfProjectAsync(projectId);
+        }
+
         public async Task<Project> AddProjectAsync(Project project)
         {
             project.ProjectId =  $"PXL-{Guid.NewGuid().ToString()}";
@@ -73,5 +87,6 @@ namespace PxlTeambuilderApi.Services.Implementations
                 ProjectId = projectId
             };
         }
+
     }
 }

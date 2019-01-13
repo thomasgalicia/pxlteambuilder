@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using PxlTeambuilderApi.Data;
 using PxlTeambuilderApi.Data.Domain;
+using PxlTeambuilderApi.Data.Enums;
 using PxlTeambuilderApi.Exceptions;
 
 namespace PxlTeambuilderApi.Repositories.Implementations
@@ -19,9 +20,48 @@ namespace PxlTeambuilderApi.Repositories.Implementations
             this.context = context;
         }
 
+        public ICollection<Project> GetAllProjectsByUserId(int userId, UserRole role)
+        {
+            ICollection<Project> projects;
+            if(role == UserRole.Teacher)
+            {
+                projects = context.Projects.Where(p => p.UserId == userId).ToList();
+            }
+
+            else
+            {
+                ICollection<UserProjectDetail> userProjectDetails = context.UserProjectDetails.Where(upd => upd.UserId == userId).ToList();
+                projects = new List<Project>();
+                foreach(UserProjectDetail userProjectDetail in userProjectDetails)
+                {
+                    projects.Add(userProjectDetail.Project);
+                }
+            }
+
+            return projects;
+        }
+
         public async Task<Project> GetProjectByIdAsync(string projectId)
         {
             return await context.Projects.FindAsync(projectId);
+        }
+
+        public async Task<ICollection<Group>> GetAllGroupsOfProjectAsync(string projectId)
+        {
+            //fetch all groups from project
+            Project project = await context.Projects.FindAsync(projectId);
+            ICollection<Group> groups = project.Groups;
+
+            //fetch all userprojectdetails from project
+            ICollection<UserProjectDetail> userProjectDetails = context.UserProjectDetails.Where(upd => upd.ProjectId == projectId).ToList();
+
+            //put users in their group
+            foreach(Group group in groups)
+            {
+                userProjectDetails.Where(upd => upd.GroupId == group.GroupId).ToList().ForEach(upd => group.TeamMembers.Add(upd.User));
+            }
+
+            return groups;
         }
 
         //TODO: implement
@@ -92,5 +132,7 @@ namespace PxlTeambuilderApi.Repositories.Implementations
 
             return true;
         }
+
+       
     }
 }
