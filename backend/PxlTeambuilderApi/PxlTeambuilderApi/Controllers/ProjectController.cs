@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PxlTeambuilderApi.Data.Domain;
+using PxlTeambuilderApi.Data.Model;
 using PxlTeambuilderApi.Exceptions;
 using PxlTeambuilderApi.Services.Interfaces;
 
@@ -52,11 +53,20 @@ namespace PxlTeambuilderApi.Controllers
 
         [HttpGet]
         [Route("{projectId}/groups")]
-        [Authorize(Roles = "Teacher")]
+        [Authorize]
         public async Task<IActionResult> GetAllGroupsByProjectId(string projectId)
         {
-            ICollection<Group> groups = await projectService.GetGroupsFromProjectAsync(projectId);
-            return Ok(groups);
+            try
+            {
+                ICollection<Group> groups = await projectService.GetGroupsFromProjectAsync(projectId);
+                return Ok(groups);
+            }
+
+            catch(ProjectNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+           
         }
 
         [HttpPost]
@@ -75,16 +85,17 @@ namespace PxlTeambuilderApi.Controllers
 
        [HttpPost]
        [Route("participate")]
-       public async Task<IActionResult> ParticipateToProject([FromQuery(Name = "uid")] int userId,[FromQuery(Name = "pid")] string projectId,[FromQuery(Name = "gid")] string groupId)
-        {
-            if(userId == 0 | projectId == null | groupId == null)
+       [Authorize(Roles = "Student")]
+       public async Task<IActionResult> ParticipateToProject([FromBody] ParticipateInputModel inputModel)
+       {
+            if (inputModel.GroupId == null | inputModel.ProjectId == null | inputModel.UserId == 0)
             {
-                return BadRequest("missing query parameter(s)");
+                return BadRequest("missing data");
             }
 
             try
             {
-                bool success = await projectService.AddUserToGroup(userId, projectId, groupId);
+                bool success = await projectService.AddUserToGroup(inputModel.UserId, inputModel.ProjectId, inputModel.GroupId);
 
                 if (success)
                 {
@@ -104,6 +115,6 @@ namespace PxlTeambuilderApi.Controllers
                 return BadRequest("Group is full");
             }
   
-        }
+       }
     }
 }

@@ -50,6 +50,10 @@ namespace PxlTeambuilderApi.Repositories.Implementations
         {
             //fetch all groups from project
             Project project = await context.Projects.FindAsync(projectId);
+            if(project == null)
+            {
+                throw new ProjectNotFoundException(projectId);
+            }
             ICollection<Group> groups = project.Groups;
 
             //fetch all userprojectdetails from project
