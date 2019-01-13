@@ -27,6 +27,7 @@ namespace PxlTeambuilderApi.Data
 
             //Group table
             modelBuilder.Entity<Group>().HasKey(group => group.GroupId);
+            modelBuilder.Entity<Group>().Ignore(group => group.TeamMembers);
             modelBuilder.Entity<Group>().HasOne(group => group.Project).WithMany(project => project.Groups).HasForeignKey(group => group.ProjectId).OnDelete(DeleteBehavior.Cascade);
 
             //many to many relationships

@@ -8,9 +8,16 @@ namespace PxlTeambuilderApi.Data.Domain
 {
     public class User
     {
+        [JsonProperty("id")]
         public int Id { get; set; }
+
+        [JsonProperty("email")]
         public string Email { get; set; }
+
+        [JsonProperty("name")]
         public string Name { get; set; }
+
+        [JsonIgnore]
         public UserRole Role { get; set; }
 
         [JsonIgnore]

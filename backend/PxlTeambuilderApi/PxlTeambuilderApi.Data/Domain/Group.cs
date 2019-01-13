@@ -7,6 +7,7 @@ namespace PxlTeambuilderApi.Data.Domain
 {
     public class Group
     {
+        private ICollection<User> teamMembers = new List<User>();
 
         public string GroupId { get; set; }
         public string Name { get; set; }
@@ -18,5 +19,19 @@ namespace PxlTeambuilderApi.Data.Domain
 
         [JsonIgnore]
         public virtual Project Project { get; set; }
+
+        //non database properties
+        public ICollection<User> TeamMembers
+        {
+            get
+            {
+                return this.teamMembers;
+            }
+
+            set
+            {
+                this.teamMembers = value;
+            }
+        }
     }
 }
