@@ -15,6 +15,8 @@ import { ParticipateComponent } from './participate/participate.component';
 import { ProjectService } from './services/project/project.service';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ProjectoverviewItemComponent } from './projectoverview-item/projectoverview-item.component';
+import { GroupViewItemComponent } from './group-view-item/group-view-item.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ProjectsoverviewComponent,
     ProjectdetailComponent,
     ParticipateComponent,
+    ProjectoverviewItemComponent,
+    GroupViewItemComponent,
   ],
   imports: [
     BrowserModule,
