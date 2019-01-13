@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ProjectService } from '../services/project/project.service';
+import { Project } from '../models/project';
 
 @Component({
   selector: 'app-projectsoverview',
@@ -8,13 +10,11 @@ import { Router } from '@angular/router';
 })
 export class ProjectsoverviewComponent implements OnInit {
 
-  constructor(private router : Router) { }
+  private projects : Project[];
+
+  constructor(private router : Router, private project : ProjectService) { }
 
   ngOnInit() {
-  }
-
-  navigateToDetail(event : Event){
-    event.preventDefault();
-    this.router.navigate(['/details']);
+    this.project.getAllProjectOfUser().subscribe(data => this.projects = data); 
   }
 }

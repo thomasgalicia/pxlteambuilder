@@ -9,20 +9,14 @@
     }
 
     ul{
-        
-        width:100%;
-    }
-
-    li{
-        p{
-            float: left;
-        }
-
-        a{
-            float: left;
-            color: map-get($colors, primary-green);
+        width: 100%;
+        padding: 0;
+        app-projectoverview-item{
+            width: 100%;;
         }
     }
 
+    
+    
 
 }
