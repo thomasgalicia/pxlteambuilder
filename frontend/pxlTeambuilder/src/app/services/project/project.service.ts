@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from '../base.service';
 import { Observable } from 'rxjs';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient, HttpParams} from '@angular/common/http';
 import { Project } from 'src/app/models/project';
 import { AuthService } from '../auth/auth.service';
 import { map } from 'rxjs/operators';
@@ -55,6 +55,21 @@ export class ProjectService extends BaseService {
       }
     }
     return this.http.get<Group[]>(`${this.baseApiUrl}/projects/${projectId}/groups`,options).pipe(map((pojo : Object[]) => this.parsePojoArrayToGroups(pojo)));
+  }
+
+  public participateToProject(userId : number, projectId : string, groupId : string){
+    const data = {
+      userId : userId,
+      projectId : projectId,
+      groupId : groupId
+    }
+    const options  = {
+      headers : {
+        Authorization : `Bearer ${this.auth.Token}`
+      },
+    }
+    console.log(options);
+    return this.http.post(`${this.baseApiUrl}/projects/participate`,data,options);
   }
 
   public get SelectedProject(){
