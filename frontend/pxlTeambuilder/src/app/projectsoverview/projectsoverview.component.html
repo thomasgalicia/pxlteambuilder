@@ -2,6 +2,6 @@
   <h1>Your projects</h1>
 
   <ul class="list-group" *ngIf="projects">
-    <app-projectoverview-item *ngFor="let project of projects" [project]="project"></app-projectoverview-item>
+    <app-projectoverview-item *ngFor="let project of projects" [project]="project" [teacher]="teacher"></app-projectoverview-item>
   </ul>
 </div>

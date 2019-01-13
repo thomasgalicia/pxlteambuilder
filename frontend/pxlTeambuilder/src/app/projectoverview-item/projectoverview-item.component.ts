@@ -10,8 +10,8 @@ import { ProjectService } from '../services/project/project.service';
 })
 export class ProjectoverviewItemComponent implements OnInit {
 
-  @Input() project : Project
-
+  @Input() project : Project;
+  @Input() teacher : boolean;
   constructor(private router : Router, private projectService : ProjectService) { }
 
   ngOnInit() {
