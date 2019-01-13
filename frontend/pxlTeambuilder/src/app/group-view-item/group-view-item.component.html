@@ -1,0 +1,10 @@
+<div class="card" *ngIf="group">
+  <p class="card-header">{{ group.Name }}</p>
+  <div class="card-body">
+    <ul class="list-group list-group-flush">
+      <ng-container *ngIf="group.TeamMembers">
+          <li class="list-group-item" *ngFor="let teammember of group.TeamMembers">{{ teammember.Name }}</li>
+      </ng-container>
+    </ul>
+  </div>
+</div>

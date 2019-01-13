@@ -1,0 +1,17 @@
+@import '../../variables.scss';
+
+.card{
+    margin-bottom: 10px;
+    padding-left: 0;
+    padding-right: 0;
+    border-color: map-get($colors, primary-green);
+
+    .card-header{
+        background-color: map-get($colors, primary-green);
+        color:white;
+    }
+
+    .list-group-item{
+        border-color: map-get($colors, primary-green);
+    }
+}

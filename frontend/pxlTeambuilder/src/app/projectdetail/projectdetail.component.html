@@ -2,93 +2,19 @@
   <div class="jumbotron">
       <h2>General:</h2>
       <label for="title">Title:</label>
-      <p id="title">Software Engineering</p>
+      <p id="title">{{ project.Title }}</p>
   
       <label for="description">Description:</label>
-      <p id="description">PE:Software Engineering</p>
+      <p id="description">{{ project.Description }}</p>
   
       <label for="maxstudents">Max students per group:</label>
-      <p id="maxstudents">4</p>
+      <p id="maxstudents">{{ project.MaxStudentsPerGroup }}</p>
   </div>
 
   <div class="jumbotron">
     <h2>Groups:</h2>
-    <div class="row">
-        
-      <div class="card col-11 col-md-5 col-lg-3 offset-1">
-        <p class="card-header">Group 1</p>
-        <div class="card-body">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">Student 1</li>
-            <li class="list-group-item">Student 2</li>
-            <li class="list-group-item">Student 3</li>
-            <li class="list-group-item">Student 4</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="card col-11 col-md-5 col-lg-3 offset-1">
-          <p class="card-header">Group 2</p>
-          <div class="card-body">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">Student 5</li>
-              <li class="list-group-item">Student 6</li>
-              <li class="list-group-item">Student 7</li>
-              <li class="list-group-item">Student 8</li>
-            </ul>
-          </div>
-      </div>
-
-
-        <div class="card col-11 col-md-5 col-lg-3 offset-1">
-            <p class="card-header">Group 3</p>
-            <div class="card-body">
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">Student 9</li>
-                <li class="list-group-item">Student 10</li>
-                <li class="list-group-item">Student 11</li>
-                <li class="list-group-item">Student 12</li>
-              </ul>
-            </div>
-        </div>
-
-        <div class="card col-11 col-md-5 col-lg-3 offset-1">
-            <p class="card-header">Group 4</p>
-            <div class="card-body">
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">Student 13</li>
-                <li class="list-group-item">Student 14</li>
-                <li class="list-group-item">Student 15</li>
-                <li class="list-group-item">Student 16</li>
-              </ul>
-            </div>
-        </div>
-
-        <div class="card col-11 col-md-5 col-lg-3 offset-1">
-            <p class="card-header">Group 5</p>
-            <div class="card-body">
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">Student 17</li>
-                <li class="list-group-item">Student 18</li>
-                <li class="list-group-item">Student 19</li>
-                <li class="list-group-item">Student 20</li>
-              </ul>
-            </div>
-        </div>
-
-        <div class="card col-11 col-md-5 col-lg-3 offset-1">
-            <p class="card-header">Group 6</p>
-            <div class="card-body">
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">Student 21</li>
-                <li class="list-group-item">Student 22</li>
-                <li class="list-group-item">Student 23</li>
-                <li class="list-group-item">Student 24</li>
-              </ul>
-            </div>
-        </div>
-
-
+    <div class="row" *ngIf="groups">
+      <app-group-view-item class="col-11 col-md-5 col-lg-3 offset-1" *ngFor="let group of groups" [group]="group"></app-group-view-item>
     </div>
       
   </div>
