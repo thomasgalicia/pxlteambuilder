@@ -3,6 +3,7 @@ using Moq;
 using NUnit.Framework;
 using PxlTeambuilderApi.Controllers;
 using PxlTeambuilderApi.Data.Domain;
+using PxlTeambuilderApi.Data.Model;
 using PxlTeambuilderApi.Exceptions;
 using PxlTeambuilderApi.Services.Interfaces;
 using PxlTeambuilderApi.Tests.Builders;
@@ -23,9 +24,9 @@ namespace PxlTeambuilderApi.Tests.Controllers
         private int userId;
         private string projectId;
         private string groupId;
+        private ParticipateInputModel inputModel;
 
-
-        private const string ERROR_MISSING_QUERYPARAM_MESSAGE = "missing query parameter(s)";
+        private const string ERROR_MISSING_QUERYPARAM_MESSAGE = "missing data";
         private const string ERROR_ALREADY_PARTICIPATING_MESSAGE = "You are already participating in the project";
         private const string ERROR_GROUP_FULL_MESSAGE = "Group is full";
 
@@ -36,6 +37,12 @@ namespace PxlTeambuilderApi.Tests.Controllers
             userId = random.Next();
             projectId = Guid.NewGuid().ToString();
             groupId = Guid.NewGuid().ToString();
+            inputModel = new ParticipateInputModel
+            {
+                ProjectId = projectId,
+                GroupId = groupId,
+                UserId = userId
+            };
             projectBuilder = new ProjectBuilder();
             projectServiceMock = new Mock<IProjectService>();
             projectController = new ProjectController(projectServiceMock.Object);
@@ -101,8 +108,9 @@ namespace PxlTeambuilderApi.Tests.Controllers
 
         [Test]
         public void ParticipateToProjectShouldReturnBadRequestWithErrorMessageWhenNoUserIdIsPresent()
-        {          
-            var result = projectController.ParticipateToProject(0, projectId, groupId).Result as BadRequestObjectResult ;
+        {
+            inputModel.UserId = 0;
+            var result = projectController.ParticipateToProject(inputModel).Result as BadRequestObjectResult ;
             var errorMessage = (string)result.Value;
 
             Assert.NotNull(result);
@@ -113,8 +121,8 @@ namespace PxlTeambuilderApi.Tests.Controllers
         [Test]
         public void ParticipateToProjectShouldReturnBadRequestWithErrorMessageWhenNoProjectIdIsPresent()
         {
-            projectId = null;
-            var result = projectController.ParticipateToProject(userId, projectId, groupId).Result as BadRequestObjectResult;
+            inputModel.ProjectId = null;
+            var result = projectController.ParticipateToProject(inputModel).Result as BadRequestObjectResult;
             var errorMessage = (string)result.Value;
 
             Assert.NotNull(result);
@@ -125,8 +133,8 @@ namespace PxlTeambuilderApi.Tests.Controllers
         [Test]
         public void ParticipateToProjectShouldReturnBadRequestWithErrorMessageWhenNoGroupIdIsPresent()
         {
-            groupId = null;
-            var result = projectController.ParticipateToProject(userId, projectId, groupId).Result as BadRequestObjectResult;
+            inputModel.GroupId = null;
+            var result = projectController.ParticipateToProject(inputModel).Result as BadRequestObjectResult;
             var errorMessage = (string)result.Value;
 
             Assert.NotNull(result);
@@ -139,7 +147,7 @@ namespace PxlTeambuilderApi.Tests.Controllers
         {
             projectServiceMock.Setup(mock => mock.AddUserToGroup(userId, projectId, groupId)).ReturnsAsync(() => true);
 
-            var result = projectController.ParticipateToProject(userId, projectId, groupId).Result as OkResult;
+            var result = projectController.ParticipateToProject(inputModel).Result as OkResult;
 
             Assert.NotNull(result);
             projectServiceMock.Verify(mock => mock.AddUserToGroup(userId, projectId, groupId), Times.Once);
@@ -150,7 +158,7 @@ namespace PxlTeambuilderApi.Tests.Controllers
         {
             projectServiceMock.Setup(mock => mock.AddUserToGroup(userId, projectId, groupId)).ReturnsAsync(false);
 
-            var result = projectController.ParticipateToProject(userId, projectId, groupId).Result as BadRequestResult;
+            var result = projectController.ParticipateToProject(inputModel).Result as BadRequestResult;
 
             Assert.NotNull(result);
             projectServiceMock.Verify(mock => mock.AddUserToGroup(userId, projectId, groupId), Times.Once);
@@ -161,7 +169,7 @@ namespace PxlTeambuilderApi.Tests.Controllers
         {
             projectServiceMock.Setup(mock => mock.AddUserToGroup(userId, projectId, groupId)).Throws<UserAlreadyInProjectException>();
 
-            var result = projectController.ParticipateToProject(userId, projectId, groupId).Result as BadRequestObjectResult;
+            var result = projectController.ParticipateToProject(inputModel).Result as BadRequestObjectResult;
             var errorMessage = (string)result.Value;
 
             Assert.NotNull(result);
@@ -175,7 +183,7 @@ namespace PxlTeambuilderApi.Tests.Controllers
         {
             projectServiceMock.Setup(mock => mock.AddUserToGroup(userId, projectId, groupId)).Throws<MaxStudentsBoundsException>();
 
-            var result = projectController.ParticipateToProject(userId, projectId, groupId).Result as BadRequestObjectResult;
+            var result = projectController.ParticipateToProject(inputModel).Result as BadRequestObjectResult;
             var errorMessage = (string)result.Value;
 
             Assert.NotNull(result);
