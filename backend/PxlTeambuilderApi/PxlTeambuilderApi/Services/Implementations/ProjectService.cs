@@ -18,9 +18,6 @@ namespace PxlTeambuilderApi.Services.Implementations
         public ProjectService(IProjectRepository projectRepository)
         {
             this.projectRepository = projectRepository;
-            //attaching this as publisher to subscriber LogService
-            Attach(new LogService(this, "ProjectService: "));
-            SetStateAndNotify("Constructor Called");
         }
 
         public void SetStateAndNotify(string stateParameter)
@@ -36,8 +33,6 @@ namespace PxlTeambuilderApi.Services.Implementations
             {
                 userRole = UserRole.Teacher;
             }
-
-            SetStateAndNotify("GetAllProjectsByUserId Called");
             return projectRepository.GetAllProjectsByUserId(userId, userRole);
         }
 
@@ -48,14 +43,11 @@ namespace PxlTeambuilderApi.Services.Implementations
             {
                 throw new ProjectNotFoundException(projectId);
             }
-
-            SetStateAndNotify("GetProjectByIdAsync Called");
             return project;
         }
 
         public async Task<ICollection<Group>> GetGroupsFromProjectAsync(string projectId)
         {
-            SetStateAndNotify("GetGroupsFromProjectAsync");
             return await projectRepository.GetAllGroupsOfProjectAsync(projectId);
         }
 
@@ -65,8 +57,7 @@ namespace PxlTeambuilderApi.Services.Implementations
             project.Groups = new List<Group>();
             Group defaultGroup = GenerateDefaultGroup(project.ProjectId);
             project.Groups.Add(defaultGroup);
-
-            SetStateAndNotify("AddProjectAsync Called");
+            
             return await projectRepository.AddProjectAsync(project);
         }
 

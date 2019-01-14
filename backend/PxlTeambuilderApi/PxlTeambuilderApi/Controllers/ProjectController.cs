@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using PxlTeambuilderApi.Data.Domain;
 using PxlTeambuilderApi.Data.Model;
 using PxlTeambuilderApi.Exceptions;
+using PxlTeambuilderApi.Services.Decorator;
 using PxlTeambuilderApi.Services.Interfaces;
 
 namespace PxlTeambuilderApi.Controllers
@@ -22,7 +23,7 @@ namespace PxlTeambuilderApi.Controllers
 
         public ProjectController(IProjectService projectService)
         {
-            this.projectService = projectService;
+            this.projectService = new LogDecorator(projectService);
         }
 
         [HttpGet]

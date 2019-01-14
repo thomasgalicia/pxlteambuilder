@@ -1,6 +1,6 @@
 export abstract class BaseService{
 
-    protected baseApiUrl = "https://localhost:44394/api";
+    protected baseApiUrl = "http://localhost:49934/api";
 
 }
 
