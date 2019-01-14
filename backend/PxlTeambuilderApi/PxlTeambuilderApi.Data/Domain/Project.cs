@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using PxlTeambuilderApi.Data.Interfaces;
 
 namespace PxlTeambuilderApi.Data.Domain
 {
-    public class Project
+    public class Project: IJoinable
     {
         [JsonProperty("projectId")]
         public string ProjectId { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PxlTeambuilderApi.Services.Interfaces
 {
-    public interface IProjectService
+    public interface IProjectService: Stateable
     {
         ICollection<Project> GetAllProjectsByUserId(int userId, string role);
         Task<Project> GetProjectByIdAsync(string projectId);

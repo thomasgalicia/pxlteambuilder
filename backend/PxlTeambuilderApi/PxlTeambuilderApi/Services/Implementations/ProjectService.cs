@@ -13,22 +13,19 @@ namespace PxlTeambuilderApi.Services.Implementations
 {
     public class ProjectService : LogComponent, IProjectService
     {
-        private string _state;
-
-        public string State
-        {
-            get => _state;
-            set => _state = value;
-        }
-
-
         private readonly IProjectRepository projectRepository;
 
         public ProjectService(IProjectRepository projectRepository)
         {
             this.projectRepository = projectRepository;
-            this._state = "Constructor called";
-            this.Attach(new LogService(this, "Project"));
+            //attaching this as publisher to subscriber LogService
+            Attach(new LogService(this, "ProjectService: "));
+            SetStateAndNotify("Constructor Called");
+        }
+
+        public void SetStateAndNotify(string stateParameter)
+        {
+            State = stateParameter;
             this.Notify();
         }
 
@@ -40,6 +37,7 @@ namespace PxlTeambuilderApi.Services.Implementations
                 userRole = UserRole.Teacher;
             }
 
+            SetStateAndNotify("GetAllProjectsByUserId Called");
             return projectRepository.GetAllProjectsByUserId(userId, userRole);
         }
 
@@ -51,11 +49,13 @@ namespace PxlTeambuilderApi.Services.Implementations
                 throw new ProjectNotFoundException(projectId);
             }
 
+            SetStateAndNotify("GetProjectByIdAsync Called");
             return project;
         }
 
         public async Task<ICollection<Group>> GetGroupsFromProjectAsync(string projectId)
         {
+            SetStateAndNotify("GetGroupsFromProjectAsync");
             return await projectRepository.GetAllGroupsOfProjectAsync(projectId);
         }
 
@@ -65,6 +65,8 @@ namespace PxlTeambuilderApi.Services.Implementations
             project.Groups = new List<Group>();
             Group defaultGroup = GenerateDefaultGroup(project.ProjectId);
             project.Groups.Add(defaultGroup);
+
+            SetStateAndNotify("AddProjectAsync Called");
             return await projectRepository.AddProjectAsync(project);
         }
 
@@ -93,6 +95,7 @@ namespace PxlTeambuilderApi.Services.Implementations
 
         private Group GenerateDefaultGroup(string projectId)
         {
+            SetStateAndNotify("GenerateDefaultGroup Called");
             return new Group()
             {
                 GroupId = Guid.NewGuid().ToString(),

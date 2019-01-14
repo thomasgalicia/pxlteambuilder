@@ -9,6 +9,9 @@ namespace PxlTeambuilderApi.Services.Abstract
     {
         private readonly List<Logger> _loggers = new List<Logger>();
 
+        public string State { get; set; }
+
+
         public void Attach(Logger logger)
         {
             _loggers.Add(logger);
@@ -26,5 +29,7 @@ namespace PxlTeambuilderApi.Services.Abstract
                 o.Log();
             }
         }
+
+
     }
 }
