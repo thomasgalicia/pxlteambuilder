@@ -7,16 +7,29 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PxlTeambuilderApi.Services.Abstract;
 
 namespace PxlTeambuilderApi.Services.Implementations
 {
-    public class ProjectService : IProjectService
+    public class ProjectService : LogComponent, IProjectService
     {
+        private string _state;
+
+        public string State
+        {
+            get => _state;
+            set => _state = value;
+        }
+
+
         private readonly IProjectRepository projectRepository;
 
         public ProjectService(IProjectRepository projectRepository)
         {
             this.projectRepository = projectRepository;
+            this._state = "Constructor called";
+            this.Attach(new LogService(this, "Project"));
+            this.Notify();
         }
 
         public ICollection<Project> GetAllProjectsByUserId(int userId, string role)
