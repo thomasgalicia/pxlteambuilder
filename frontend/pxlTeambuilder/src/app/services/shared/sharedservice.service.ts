@@ -49,5 +49,12 @@ export class SharedService {
 
   public clearSelectedProject(){
     localStorage.removeItem('selectedProject');
+  
+  }
+
+  public cleanup(){
+    localStorage.removeItem('selectedProject');
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
   }
 }

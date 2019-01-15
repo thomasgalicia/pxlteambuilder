@@ -22,7 +22,7 @@ export class AuthService extends BaseService {
   }
 
   public logout(){
-    this.Token = "";
+    this.shared.cleanup();
   }
 
   public isLoggedIn(){

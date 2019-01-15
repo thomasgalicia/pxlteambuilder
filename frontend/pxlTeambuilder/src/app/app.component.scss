@@ -1,0 +1,14 @@
+@import '../variables.scss';
+
+.navbar{
+    background-color: map-get($colors, primary-green);
+    
+    ul{
+        float: right;
+    }
+
+    a{
+        color:white;
+    }
+}
+

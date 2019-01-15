@@ -1,2 +1,7 @@
+<nav class="navbar navbar-inverse" *ngIf="showNavBar()">
+    <ul class="nav navbar-nav ml-auto">
+        <li><a href="#" (click)='logout($event)'>Logout</a></li>
+    </ul>
+</nav>
 <router-outlet></router-outlet>
 
