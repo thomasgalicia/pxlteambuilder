@@ -17,7 +17,6 @@ export class ProjectdetailComponent implements OnInit,OnDestroy {
     this.project = this.projectService.SelectedProject;
     this.projectService.getAllGroupsOfProject(this.project.Id).subscribe(data => {
       this.groups = data
-      console.log(this.groups);
     });  
   }
 

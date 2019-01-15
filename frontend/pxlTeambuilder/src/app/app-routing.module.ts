@@ -7,6 +7,7 @@ import { ProjectsoverviewComponent } from './projectsoverview/projectsoverview.c
 import { ProjectdetailComponent } from './projectdetail/projectdetail.component';
 import { GeneralguardService } from './services/auth/guards/generalguard.service';
 import { ParticipateComponent } from './participate/participate.component';
+import { EditComponent } from './edit/edit.component';
 
 const routes: Routes = [
   {path: '', redirectTo:'/login', pathMatch: 'full'},
@@ -15,7 +16,8 @@ const routes: Routes = [
   {path: 'create', component: CreateprojectComponent},
   {path: 'overview', component: ProjectsoverviewComponent},
   {path: 'details', component: ProjectdetailComponent},
-  {path: 'participate', component: ParticipateComponent}
+  {path: 'participate', component: ParticipateComponent},
+  {path: 'edit', component: EditComponent}
 ];
 
 @NgModule({

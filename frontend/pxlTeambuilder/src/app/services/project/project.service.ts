@@ -53,6 +53,17 @@ export class ProjectService extends BaseService {
     return this.http.post(`${this.baseApiUrl}/projects/${projectId}/groups/new`,data,options);
   }
 
+  public updateProject(projectId : string, updateObject : any[]){
+    const options = {
+      headers : {
+        Authorization : `Bearer ${this.auth.Token}`,
+        'Content-Type' : 'application/json'
+      }
+    }
+    
+    return this.http.post(`${this.baseApiUrl}/projects/${projectId}/groups/update`,updateObject,options);
+  }
+
   public getAllProjectOfUser() : Observable<Project[]>{
     let userId = this.auth.User.Id;
     const options = {

@@ -2,6 +2,6 @@
   <div class="row">
       <p class="col-8 col-lg-10">{{ project.Title }}</p>
       <a href  class="col-2 col-lg-1" (click)="projectViewClick($event)">View</a>
-      <a href  class="col-2 col-lg-1" *ngIf="teacher">Edit</a>
+      <a href  class="col-2 col-lg-1" *ngIf="teacher" (click)="editProjectClick($event)">Edit</a>
   </div>
 </li>

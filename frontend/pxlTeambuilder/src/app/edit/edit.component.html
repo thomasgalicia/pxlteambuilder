@@ -1,0 +1,19 @@
+<div class="page-head">
+    <button class="btn btn-primary" (click)="saveUpdates()" [disabled]="!changesMade">Save</button>
+</div>
+
+<div cdkDropListGroup *ngIf="groups" class="droplistGroup">
+    <div class="row">
+            <div class="card col-10 col-md-4 col-lg-2 offset-1" *ngFor="let group of groups; let i = index">
+                <p class="card-header">{{ group.Name }}</p>
+                <div class="card-body" cdkDropList (cdkDropListDropped)="drop($event)" [id]="generateDropListId(i)">
+                    <ul class="list-group list-group-flush">
+                        <ng-container *ngIf="group.TeamMembers">
+                            <li class="list-group-item" *ngFor="let teammember of group.TeamMembers" cdkDrag>{{ teammember.Name }}</li>
+                        </ng-container>
+                    </ul>
+                </div>
+            </div>
+    </div>
+</div>
+
