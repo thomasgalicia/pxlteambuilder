@@ -37,6 +37,21 @@ export class ProjectService extends BaseService {
     return this.http.post(`${this.baseApiUrl}/projects/new`,data,options);
   }
 
+  public addGroupToProject(userId : number, projectId : string, groupName : string){
+    const data = {
+      userId : userId,
+      groupName : groupName
+    }
+    const options = {
+      headers : {
+        Authorization : `Bearer ${this.auth.Token}`,
+        'Content-Type' : 'application/json'
+      }
+    }
+
+    return this.http.post(`${this.baseApiUrl}/projects/${projectId}/groups/new`,data,options);
+  }
+
   public getAllProjectOfUser() : Observable<Project[]>{
     let userId = this.auth.User.Id;
     const options = {
