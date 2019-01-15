@@ -54,7 +54,7 @@ namespace PxlTeambuilderApi.Controllers
 
         [HttpGet]
         [Route("{projectId}/groups")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> GetAllGroupsByProjectId(string projectId)
         {
             try
@@ -112,6 +112,26 @@ namespace PxlTeambuilderApi.Controllers
         }
 
         [HttpPost]
+        [Route("{projectId}/groups/update")]
+        public async Task<IActionResult> UpdateGroupsOfProject(string projectId,[FromBody] UpdateGroupModel[] updateGroupModels)
+        {
+            int rowsAdded = 0;
+            foreach(UpdateGroupModel updateGroupModel in updateGroupModels)
+            {
+              rowsAdded += await projectService.UpdateGroup(projectId, updateGroupModel);
+            }
+
+            bool success = rowsAdded == updateGroupModels.Length;
+
+            if (!success)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
+
+        [HttpPost]
         [Route("participate")]
         [Authorize(Roles = "Student")]
         public async Task<IActionResult> ParticipateToProject([FromBody] ParticipateInputModel inputModel)
@@ -144,5 +164,7 @@ namespace PxlTeambuilderApi.Controllers
             }
   
        }
+
+        
     }
 }

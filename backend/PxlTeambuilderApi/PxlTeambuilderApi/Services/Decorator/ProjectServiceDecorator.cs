@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using PxlTeambuilderApi.Data.Domain;
+using PxlTeambuilderApi.Data.Model;
 using PxlTeambuilderApi.Services.Abstract;
 using PxlTeambuilderApi.Services.Interfaces;
 
@@ -50,6 +51,11 @@ namespace PxlTeambuilderApi.Services.Decorator
         public Task<bool> AddNewGroup(int userId, string projectId, string groupName)
         {
             return _service.AddNewGroup(userId, projectId, groupName);
+        }
+
+        public Task<int> UpdateGroup(string projectId, UpdateGroupModel updateModel)
+        {
+            return _service.UpdateGroup(projectId, updateModel);
         }
     }
 }

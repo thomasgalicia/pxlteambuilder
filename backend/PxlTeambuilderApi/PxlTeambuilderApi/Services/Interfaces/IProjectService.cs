@@ -1,4 +1,5 @@
 ﻿using PxlTeambuilderApi.Data.Domain;
+using PxlTeambuilderApi.Data.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,6 @@ namespace PxlTeambuilderApi.Services.Interfaces
         Task<Project> UpdateProjectAsync(string projectId, Project project);
         Task<bool> AddUserToGroup(int userId,string projectId,string groupId);
         Task<bool> AddNewGroup(int userId, string projectId, string groupName);
+        Task<int> UpdateGroup(string projectId, UpdateGroupModel updateModel);
     }
 }

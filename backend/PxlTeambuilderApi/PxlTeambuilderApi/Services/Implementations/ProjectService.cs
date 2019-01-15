@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using PxlTeambuilderApi.Services.Abstract;
+using PxlTeambuilderApi.Data.Model;
 
 namespace PxlTeambuilderApi.Services.Implementations
 {
@@ -101,6 +102,11 @@ namespace PxlTeambuilderApi.Services.Implementations
             return success && insertedEntity != null;
         }
 
+        public async Task<int> UpdateGroup(string projectId, UpdateGroupModel updateModel)
+        {
+            return await projectRepository.UpdateGroupAsync(updateModel.UserId, projectId, updateModel.OldGroupId, updateModel.NewGroupId);
+        }
+
         private Group GenerateDefaultGroup(string projectId)
         {
             SetStateAndNotify("GenerateDefaultGroup Called");
@@ -112,6 +118,6 @@ namespace PxlTeambuilderApi.Services.Implementations
             };
         }
 
-       
+        
     }
 }

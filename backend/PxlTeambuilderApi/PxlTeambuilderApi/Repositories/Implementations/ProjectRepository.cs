@@ -148,9 +148,21 @@ namespace PxlTeambuilderApi.Repositories.Implementations
             return detail != null;
         }
 
+        public async Task<int> UpdateGroupAsync(int userId,string projectId, string oldGroupId, string newGroupId)
+        {
+            UserProjectDetail userProjectDetail = await context.UserProjectDetails.FindAsync(userId, projectId);
+            if(userProjectDetail == null)
+            {
+                throw new UserNotFoundException();
+            }
+
+            userProjectDetail.GroupId = newGroupId;
+            return await CommitAsync();
+        }
+
         private async Task<int> CommitAsync()
         {
             return await context.SaveChangesAsync();
-        }
+        }    
     }
 }
