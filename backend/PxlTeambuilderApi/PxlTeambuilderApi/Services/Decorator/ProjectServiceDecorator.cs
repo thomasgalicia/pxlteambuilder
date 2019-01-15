@@ -16,6 +16,7 @@ namespace PxlTeambuilderApi.Services.Decorator
         {
             _service = service;
         }
+
         public virtual ICollection<Project> GetAllProjectsByUserId(int userId, string role)
         {
             return _service.GetAllProjectsByUserId(userId, role);
@@ -44,6 +45,11 @@ namespace PxlTeambuilderApi.Services.Decorator
         public virtual Task<bool> AddUserToGroup(int userId, string projectId, string groupId)
         {
             return _service.AddUserToGroup(userId,projectId,groupId);
+        }
+
+        public Task<bool> AddNewGroup(int userId, string projectId, string groupName)
+        {
+            return _service.AddNewGroup(userId, projectId, groupName);
         }
     }
 }

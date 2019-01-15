@@ -76,7 +76,6 @@ namespace PxlTeambuilderApi.Repositories.Implementations
             Project insertedEntity = (Project)projectEntry.Entity;
             try{
                 await CommitAsync();
-
             }
 
             catch(Exception ex)
@@ -92,12 +91,7 @@ namespace PxlTeambuilderApi.Repositories.Implementations
             throw new NotImplementedException();
         }
 
-        private async Task<int> CommitAsync()
-        {
-          return await context.SaveChangesAsync();
-        }
-
-        public async Task<int> AddUserToGroup(int userId, string projectId, string groupId)
+        public async Task<int> AddUserToGroupAsync(int userId, string projectId, string groupId)
         {
             UserProjectDetail userProjectDetail = new UserProjectDetail
             {
@@ -113,6 +107,11 @@ namespace PxlTeambuilderApi.Repositories.Implementations
             }
 
             Group group = await context.Groups.FindAsync(groupId);
+            if(group.UserProjectDetails == null)
+            {
+                group.UserProjectDetails = new List<UserProjectDetail>();
+            }
+
             int groupCount = group.UserProjectDetails.Count;
             if (groupCount < project.MaxStudentsPerGroup)
             {
@@ -126,17 +125,32 @@ namespace PxlTeambuilderApi.Repositories.Implementations
             }
         }
 
-        public async Task<bool> UserIsAlreadyInProject(string projectId,int userId)
+        public async Task<Group> AddGroupAsync(Group group)
         {
-            UserProjectDetail userProjectDetail = await context.UserProjectDetails.FindAsync(userId, projectId);
-            if(userProjectDetail == null)
+            EntityEntry groupEntry = await context.Groups.AddAsync(group);
+            Group insertedGroup = (Group)groupEntry.Entity;
+            try
             {
-                return false;
+                await CommitAsync();
             }
 
-            return true;
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            return insertedGroup;
+
         }
 
-       
+        public async Task<bool> UserIsAlreadyInProject(int userId, string projectId)
+        {
+            UserProjectDetail detail = await context.UserProjectDetails.FindAsync(userId, projectId);
+            return detail != null;
+        }
+
+        private async Task<int> CommitAsync()
+        {
+            return await context.SaveChangesAsync();
+        }
     }
 }

@@ -84,10 +84,37 @@ namespace PxlTeambuilderApi.Controllers
             return StatusCode(201);
         }
 
-       [HttpPost]
-       [Route("participate")]
-       [Authorize(Roles = "Student")]
-       public async Task<IActionResult> ParticipateToProject([FromBody] ParticipateInputModel inputModel)
+        [HttpPost]
+        [Route("{projectId}/groups/new")]
+        public async Task<IActionResult> AddNewGroup(string projectId,[FromBody] NewGroupInputModel inputModel)
+        {
+            try
+            {
+                bool success = await projectService.AddNewGroup(inputModel.UserId, projectId, inputModel.GroupName);
+                if (!success)
+                {
+                    return BadRequest("something went wrong");
+                }
+
+                return Ok();
+            }
+
+            catch(UserAlreadyInProjectException)
+            {
+                return BadRequest("u are already participating in this project");
+            }
+
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
+        }
+
+        [HttpPost]
+        [Route("participate")]
+        [Authorize(Roles = "Student")]
+        public async Task<IActionResult> ParticipateToProject([FromBody] ParticipateInputModel inputModel)
        {
             if (inputModel.GroupId == null | inputModel.ProjectId == null | inputModel.UserId == 0)
             {

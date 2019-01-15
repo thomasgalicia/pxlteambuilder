@@ -70,18 +70,35 @@ namespace PxlTeambuilderApi.Services.Implementations
 
         public async Task<bool> AddUserToGroup(int userId,string projectId ,string groupId)
         {
-            if (await projectRepository.UserIsAlreadyInProject(projectId, userId))
+            if (await projectRepository.UserIsAlreadyInProject(userId,projectId))
             {
                 throw new UserAlreadyInProjectException();
             }
 
-            int rowsAdded = await projectRepository.AddUserToGroup(userId, projectId, groupId);
+            int rowsAdded = await projectRepository.AddUserToGroupAsync(userId, projectId, groupId);
             if(rowsAdded == 1)
             {
                 return true;
             }
 
             return false;
+        }
+
+        public async Task<bool> AddNewGroup(int userId, string projectId, string groupName)
+        {
+            if (await projectRepository.UserIsAlreadyInProject(userId, projectId))
+            {
+                throw new UserAlreadyInProjectException();
+            }
+            Group newGroup = new Group
+            {
+                Name = groupName,
+                ProjectId = projectId,
+                GroupId = Guid.NewGuid().ToString()
+            };
+            Group insertedEntity = await projectRepository.AddGroupAsync(newGroup);
+            bool success = await AddUserToGroup(userId, projectId, newGroup.GroupId);
+            return success && insertedEntity != null;
         }
 
         private Group GenerateDefaultGroup(string projectId)
@@ -95,5 +112,6 @@ namespace PxlTeambuilderApi.Services.Implementations
             };
         }
 
+       
     }
 }
