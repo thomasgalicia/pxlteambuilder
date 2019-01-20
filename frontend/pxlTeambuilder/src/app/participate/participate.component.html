@@ -3,7 +3,7 @@
   <div class="container-wrapper">
     <form [formGroup]="searchForm" class="form-search">
         <label for="projectId">Project Id:</label>
-        <input id="projectId" class="form-control" formControlName="projectId">
+        <input id="projectId" class="form-control" formControlName="projectId" autocomplete="off">
         <button class="btn btn-primary ld-ext-right" (click)="search()" [disabled]="searchForm.invalid">
           Search
           <div class="spinner ld ld-ring ld-spin" *ngIf="loading"></div>
