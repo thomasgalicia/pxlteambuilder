@@ -18,7 +18,7 @@ namespace PxlTeambuilderApi.Bootstrap
             {
                 PxlTeamBuilderContext context = new PxlTeamBuilderContext();
                 IPasswordService passwordService = new PasswordService();
-                //ClearDatabase(context);
+                ClearDatabase(context);
 
                 context.Users.Add(new User
                 {
@@ -56,8 +56,10 @@ namespace PxlTeambuilderApi.Bootstrap
                     Password = passwordService.GenerateHash("kris")
                 });
 
+                context.SaveChanges();
+
                 //seeding projects
-                Factory[] factories = new Factory[1];
+                /*Factory[] factories = new Factory[1];
                 factories[0] = new ProjectFactory();
 
                 foreach (var factory in factories)
@@ -79,24 +81,26 @@ namespace PxlTeambuilderApi.Bootstrap
                     }
                 }
 
-                context.SaveChanges();
+                context.SaveChanges();*/
             }
         }
 
-        //private static void ClearDatabase(PxlTeamBuilderContext context)
-        //{
-        //    IEnumerable<User> users = context.Users.ToList();
-        //    IEnumerable<Project> projects = context.Projects.ToList();
-        //    IEnumerable<Group> groups = context.Groups.ToList();
-        //    //IEnumerable<UserGroup> userGroups = context.UserGroups.ToList();
-        //    // IEnumerable<UserProject> userProjects = context.UserProjects.ToList();
+        private static void ClearDatabase(PxlTeamBuilderContext context)
+        {
+            IEnumerable<User> users = context.Users.ToList();
+            IEnumerable<Project> projects = context.Projects.ToList();
+            IEnumerable<Group> groups = context.Groups.ToList();
+            IEnumerable<UserProjectDetail> projectDetails = context.UserProjectDetails.ToList();
+            //IEnumerable<UserGroup> userGroups = context.UserGroups.ToList();
+            // IEnumerable<UserProject> userProjects = context.UserProjects.ToList();
 
-        //    context.RemoveRange(users);
-        //    context.RemoveRange(projects);
-        //    context.RemoveRange(groups);
-        //    //context.RemoveRange(userGroups);
-        //    //context.RemoveRange(userProjects);
-        //    context.SaveChanges();
-        //}
+            context.RemoveRange(users);
+            context.RemoveRange(projects);
+            context.RemoveRange(groups);
+            context.RemoveRange(projectDetails);
+            //context.RemoveRange(userGroups);
+            //context.RemoveRange(userProjects);
+            context.SaveChanges();
+        }
     }
 }

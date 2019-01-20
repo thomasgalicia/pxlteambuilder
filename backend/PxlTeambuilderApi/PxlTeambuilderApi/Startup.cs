@@ -52,7 +52,7 @@ namespace PxlTeambuilderApi
             services.AddMvc();
             services.AddCors();
 
-            DatabaseSeeder.SeedDatabase(false);
+            DatabaseSeeder.SeedDatabase(true);
 
             var builder = DependencyContainer.RegisterDependencies(services);
             this.ApplicationContainer = builder.Build();
