@@ -7,16 +7,24 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PxlTeambuilderApi.Services.Abstract;
+using PxlTeambuilderApi.Data.Model;
 
 namespace PxlTeambuilderApi.Services.Implementations
 {
-    public class ProjectService : IProjectService
+    public class ProjectService : LogComponent, IProjectService
     {
         private readonly IProjectRepository projectRepository;
 
         public ProjectService(IProjectRepository projectRepository)
         {
             this.projectRepository = projectRepository;
+        }
+
+        public void SetStateAndNotify(string stateParameter)
+        {
+            State = stateParameter;
+            this.Notify();
         }
 
         public ICollection<Project> GetAllProjectsByUserId(int userId, string role)
@@ -26,7 +34,6 @@ namespace PxlTeambuilderApi.Services.Implementations
             {
                 userRole = UserRole.Teacher;
             }
-
             return projectRepository.GetAllProjectsByUserId(userId, userRole);
         }
 
@@ -37,7 +44,6 @@ namespace PxlTeambuilderApi.Services.Implementations
             {
                 throw new ProjectNotFoundException(projectId);
             }
-
             return project;
         }
 
@@ -52,6 +58,7 @@ namespace PxlTeambuilderApi.Services.Implementations
             project.Groups = new List<Group>();
             Group defaultGroup = GenerateDefaultGroup(project.ProjectId);
             project.Groups.Add(defaultGroup);
+            
             return await projectRepository.AddProjectAsync(project);
         }
 
@@ -64,12 +71,12 @@ namespace PxlTeambuilderApi.Services.Implementations
 
         public async Task<bool> AddUserToGroup(int userId,string projectId ,string groupId)
         {
-            if (await projectRepository.UserIsAlreadyInProject(projectId, userId))
+            if (await projectRepository.UserIsAlreadyInProject(userId,projectId))
             {
                 throw new UserAlreadyInProjectException();
             }
 
-            int rowsAdded = await projectRepository.AddUserToGroup(userId, projectId, groupId);
+            int rowsAdded = await projectRepository.AddUserToGroupAsync(userId, projectId, groupId);
             if(rowsAdded == 1)
             {
                 return true;
@@ -78,8 +85,31 @@ namespace PxlTeambuilderApi.Services.Implementations
             return false;
         }
 
+        public async Task<bool> AddNewGroup(int userId, string projectId, string groupName)
+        {
+            if (await projectRepository.UserIsAlreadyInProject(userId, projectId))
+            {
+                throw new UserAlreadyInProjectException();
+            }
+            Group newGroup = new Group
+            {
+                Name = groupName,
+                ProjectId = projectId,
+                GroupId = Guid.NewGuid().ToString()
+            };
+            Group insertedEntity = await projectRepository.AddGroupAsync(newGroup);
+            bool success = await AddUserToGroup(userId, projectId, newGroup.GroupId);
+            return success && insertedEntity != null;
+        }
+
+        public async Task<int> UpdateGroup(string projectId, UpdateGroupModel updateModel)
+        {
+            return await projectRepository.UpdateGroupAsync(updateModel.UserId, projectId, updateModel.OldGroupId, updateModel.NewGroupId);
+        }
+
         private Group GenerateDefaultGroup(string projectId)
         {
+            SetStateAndNotify("GenerateDefaultGroup Called");
             return new Group()
             {
                 GroupId = Guid.NewGuid().ToString(),
@@ -88,5 +118,6 @@ namespace PxlTeambuilderApi.Services.Implementations
             };
         }
 
+        
     }
 }

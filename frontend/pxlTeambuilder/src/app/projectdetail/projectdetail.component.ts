@@ -15,7 +15,9 @@ export class ProjectdetailComponent implements OnInit,OnDestroy {
 
   constructor(private projectService : ProjectService) { 
     this.project = this.projectService.SelectedProject;
-    this.projectService.getAllGroupsOfProject(this.project.Id).subscribe(data => this.groups = data);  
+    this.projectService.getAllGroupsOfProject(this.project.Id).subscribe(data => {
+      this.groups = data
+    });  
   }
 
   ngOnInit() {
@@ -23,7 +25,7 @@ export class ProjectdetailComponent implements OnInit,OnDestroy {
   }
 
   ngOnDestroy(){    
-    this.projectService.SelectedProject = undefined;
+    this.projectService.clearSelectedProject();
   }
 
 

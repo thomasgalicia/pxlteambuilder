@@ -4,12 +4,15 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using PxlTeambuilderApi.Services.Abstract;
 using PxlTeambuilderApi.Services.Interfaces;
 
 namespace PxlTeambuilderApi.Services.Implementations
 {
-    public class PasswordService : IPasswordService
+    public class PasswordService: LogComponent, IPasswordService
     {
+        
+
         public string GenerateHash(string rawPassword)
         {
             

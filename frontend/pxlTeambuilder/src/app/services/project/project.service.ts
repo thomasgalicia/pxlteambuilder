@@ -7,15 +7,16 @@ import { AuthService } from '../auth/auth.service';
 import { map } from 'rxjs/operators';
 import { Group } from 'src/app/models/group';
 import { User } from 'src/app/models/user';
+import { SharedService } from '../shared/sharedservice.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService extends BaseService {
 
-  private selectedProject : Project;
+ 
 
-  constructor(private http : HttpClient, private auth : AuthService) {
+  constructor(private http : HttpClient, private auth : AuthService, private shared : SharedService) {
     super();
   }
 
@@ -35,6 +36,32 @@ export class ProjectService extends BaseService {
     }
 
     return this.http.post(`${this.baseApiUrl}/projects/new`,data,options);
+  }
+
+  public addGroupToProject(userId : number, projectId : string, groupName : string){
+    const data = {
+      userId : userId,
+      groupName : groupName
+    }
+    const options = {
+      headers : {
+        Authorization : `Bearer ${this.auth.Token}`,
+        'Content-Type' : 'application/json'
+      }
+    }
+
+    return this.http.post(`${this.baseApiUrl}/projects/${projectId}/groups/new`,data,options);
+  }
+
+  public updateProject(projectId : string, updateObject : any[]){
+    const options = {
+      headers : {
+        Authorization : `Bearer ${this.auth.Token}`,
+        'Content-Type' : 'application/json'
+      }
+    }
+    
+    return this.http.post(`${this.baseApiUrl}/projects/${projectId}/groups/update`,updateObject,options);
   }
 
   public getAllProjectOfUser() : Observable<Project[]>{
@@ -73,11 +100,15 @@ export class ProjectService extends BaseService {
   }
 
   public get SelectedProject(){
-    return this.selectedProject;
+    return this.shared.SelectedProject;
   }
 
   public set SelectedProject(project : Project){
-    this.selectedProject = project;
+    this.shared.SelectedProject = project;
+  }
+
+  public clearSelectedProject(){
+    this.shared.clearSelectedProject();
   }
 
   //parsers

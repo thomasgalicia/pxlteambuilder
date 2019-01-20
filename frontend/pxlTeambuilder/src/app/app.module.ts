@@ -17,6 +17,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProjectoverviewItemComponent } from './projectoverview-item/projectoverview-item.component';
 import { GroupViewItemComponent } from './group-view-item/group-view-item.component';
+import { EditComponent } from './edit/edit.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import { GroupViewItemComponent } from './group-view-item/group-view-item.compon
     ParticipateComponent,
     ProjectoverviewItemComponent,
     GroupViewItemComponent,
+    EditComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,7 +40,8 @@ import { GroupViewItemComponent } from './group-view-item/group-view-item.compon
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    DragDropModule
   ],
   providers: [AuthService, GeneralguardService, ProjectService],
   bootstrap: [AppComponent]

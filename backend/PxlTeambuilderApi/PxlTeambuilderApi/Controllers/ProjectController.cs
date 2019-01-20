@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using PxlTeambuilderApi.Data.Domain;
 using PxlTeambuilderApi.Data.Model;
 using PxlTeambuilderApi.Exceptions;
+using PxlTeambuilderApi.Services.Decorator;
 using PxlTeambuilderApi.Services.Interfaces;
 
 namespace PxlTeambuilderApi.Controllers
@@ -22,7 +23,7 @@ namespace PxlTeambuilderApi.Controllers
 
         public ProjectController(IProjectService projectService)
         {
-            this.projectService = projectService;
+            this.projectService = new LogDecorator(projectService);
         }
 
         [HttpGet]
@@ -53,7 +54,7 @@ namespace PxlTeambuilderApi.Controllers
 
         [HttpGet]
         [Route("{projectId}/groups")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> GetAllGroupsByProjectId(string projectId)
         {
             try
@@ -83,10 +84,57 @@ namespace PxlTeambuilderApi.Controllers
             return StatusCode(201);
         }
 
-       [HttpPost]
-       [Route("participate")]
-       [Authorize(Roles = "Student")]
-       public async Task<IActionResult> ParticipateToProject([FromBody] ParticipateInputModel inputModel)
+        [HttpPost]
+        [Route("{projectId}/groups/new")]
+        public async Task<IActionResult> AddNewGroup(string projectId,[FromBody] NewGroupInputModel inputModel)
+        {
+            try
+            {
+                bool success = await projectService.AddNewGroup(inputModel.UserId, projectId, inputModel.GroupName);
+                if (!success)
+                {
+                    return BadRequest("something went wrong");
+                }
+
+                return Ok();
+            }
+
+            catch(UserAlreadyInProjectException)
+            {
+                return BadRequest("u are already participating in this project");
+            }
+
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
+        }
+
+        [HttpPost]
+        [Route("{projectId}/groups/update")]
+        public async Task<IActionResult> UpdateGroupsOfProject(string projectId,[FromBody] UpdateGroupModel[] updateGroupModels)
+        {
+            int rowsAdded = 0;
+            foreach(UpdateGroupModel updateGroupModel in updateGroupModels)
+            {
+              rowsAdded += await projectService.UpdateGroup(projectId, updateGroupModel);
+            }
+
+            bool success = rowsAdded == updateGroupModels.Length;
+
+            if (!success)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("participate")]
+        [Authorize(Roles = "Student")]
+        public async Task<IActionResult> ParticipateToProject([FromBody] ParticipateInputModel inputModel)
        {
             if (inputModel.GroupId == null | inputModel.ProjectId == null | inputModel.UserId == 0)
             {
@@ -116,5 +164,7 @@ namespace PxlTeambuilderApi.Controllers
             }
   
        }
+
+        
     }
 }

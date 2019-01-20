@@ -3,13 +3,15 @@ using PxlTeambuilderApi.Repositories.Interfaces;
 using PxlTeambuilderApi.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using PxlTeambuilderApi.Exceptions;
+using PxlTeambuilderApi.Services.Abstract;
 
 namespace PxlTeambuilderApi.Services.Implementations
 {
-    public class UserService : IUserService
+    public class UserService : LogComponent, IUserService
     {
         private readonly IUserRepository userRepository;
 

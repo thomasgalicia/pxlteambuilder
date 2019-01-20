@@ -21,6 +21,7 @@ export class ParticipateComponent implements OnInit {
   private selectedOption;
   private searchForm : FormGroup;
   private groups : Group[];
+  private newGroup : string = '';
  
 
   constructor(private formbuilder : FormBuilder, private projectService : ProjectService,private auth : AuthService, private toast : ToastrService) {
@@ -40,12 +41,23 @@ export class ParticipateComponent implements OnInit {
   }
 
   public participate(){
-    let selectedGroup : Group = this.groups.filter(group => {
-      return group.Name === this.selectedOption;
-    })[0];
+    //add new group
+    if(this.newGroup !== ''){
+      this.projectService.addGroupToProject(this.auth.User.Id,this.searchForm.controls.projectId.value,this.newGroup)
+      .subscribe(success => this.toast.success('Group succesfully added','Success'), (error : HttpErrorResponse) => this.toast.error(error.error,'Error'));
+    }
 
-    this.projectService.participateToProject(this.auth.User.Id,this.projectId,selectedGroup.Id)
-                       .subscribe(success =>this.handleParticipateSuccess(), (error : HttpErrorResponse) => this.toast.error(error.error,"Error"))
+    //select existing group
+    else{
+      let selectedGroup : Group = this.groups.filter(group => {
+        return group.Name === this.selectedOption;
+      })[0];
+  
+      this.projectService.participateToProject(this.auth.User.Id,this.projectId,selectedGroup.Id)
+                         .subscribe(success =>this.handleParticipateSuccess(), (error : HttpErrorResponse) => this.toast.error(error.error,"Error"))
+    }
+    this.resetForm();
+   
   }
 
   private handleSearchSuccess(data){

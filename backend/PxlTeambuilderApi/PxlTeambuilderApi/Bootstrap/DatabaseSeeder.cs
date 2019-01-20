@@ -12,14 +12,13 @@ namespace PxlTeambuilderApi.Bootstrap
 {
     public class DatabaseSeeder
     {
-
         public static void SeedDatabase(bool doSeed)
         {
             if (doSeed)
             {
                 PxlTeamBuilderContext context = new PxlTeamBuilderContext();
                 IPasswordService passwordService = new PasswordService();
-                ClearDatabase(context);
+                //ClearDatabase(context);
 
                 context.Users.Add(new User
                 {
@@ -56,24 +55,48 @@ namespace PxlTeambuilderApi.Bootstrap
                     Role = UserRole.Teacher,
                     Password = passwordService.GenerateHash("kris")
                 });
+
+                //seeding projects
+                Factory[] factories = new Factory[1];
+                factories[0] = new ProjectFactory();
+
+                foreach (var factory in factories)
+                {
+                    int index = 0;
+                    foreach (var joinable in factory.Joinables)
+                    {
+                        index += 1;
+                        context.Projects.Add(
+                            new Project
+                            {
+                                ProjectId = $"PROJID{index}",
+                                UserId = 6,                 //kris id
+                                Title = $"TITLE{index}",
+                                Description = $"DESC{index}",
+                                MaxStudentsPerGroup = index
+                            }
+                        );
+                    }
+                }
+
                 context.SaveChanges();
             }
         }
 
-        private static void ClearDatabase(PxlTeamBuilderContext context)
-        {
-            IEnumerable<User> users = context.Users.ToList();
-            IEnumerable<Project> projects = context.Projects.ToList();
-            IEnumerable<Group> groups = context.Groups.ToList();
-            //IEnumerable<UserGroup> userGroups = context.UserGroups.ToList();
-           // IEnumerable<UserProject> userProjects = context.UserProjects.ToList();
+        //private static void ClearDatabase(PxlTeamBuilderContext context)
+        //{
+        //    IEnumerable<User> users = context.Users.ToList();
+        //    IEnumerable<Project> projects = context.Projects.ToList();
+        //    IEnumerable<Group> groups = context.Groups.ToList();
+        //    //IEnumerable<UserGroup> userGroups = context.UserGroups.ToList();
+        //    // IEnumerable<UserProject> userProjects = context.UserProjects.ToList();
 
-            context.RemoveRange(users);
-            context.RemoveRange(projects);
-            context.RemoveRange(groups);
-            //context.RemoveRange(userGroups);
-            //context.RemoveRange(userProjects);
-            context.SaveChanges();
-        }
+        //    context.RemoveRange(users);
+        //    context.RemoveRange(projects);
+        //    context.RemoveRange(groups);
+        //    //context.RemoveRange(userGroups);
+        //    //context.RemoveRange(userProjects);
+        //    context.SaveChanges();
+        //}
     }
 }

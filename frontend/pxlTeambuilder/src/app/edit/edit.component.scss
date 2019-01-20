@@ -1,0 +1,43 @@
+/*.droplist{
+    display: block;
+    border: 2px solid black;
+    margin-bottom: 10px;
+}*/
+
+@import '../../variables.scss';
+
+.card{
+    margin-bottom: 10px;
+    padding-left: 0;
+    padding-right: 0;
+    border-color: map-get($colors, primary-green);
+
+    .card-header{
+        background-color: map-get($colors, primary-green);
+        color:white;
+    }
+
+    .list-group-item{
+        border-color: map-get($colors, primary-green);
+    }
+}
+
+.row{
+    margin-top: 20px;
+}
+
+.page-head{
+    padding-top: 10px;
+    padding-right: 20px;
+    float: left;
+    clear: both;
+    width:100%;
+    button{
+        float: right;
+    }
+}
+
+.droplistGroup{
+    width: 100%;
+    float: left;
+}

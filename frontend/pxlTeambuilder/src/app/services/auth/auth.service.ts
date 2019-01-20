@@ -3,16 +3,16 @@ import { User } from 'src/app/models/user';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseService } from '../base.service';
+import { SharedService } from '../shared/sharedservice.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService extends BaseService {
 
-  private user : User;
-  private token : string = "";
+ 
 
-  constructor(private http : HttpClient) {
+  constructor(private http : HttpClient, private shared : SharedService) {
     super();
    }
 
@@ -22,26 +22,26 @@ export class AuthService extends BaseService {
   }
 
   public logout(){
-    this.token = "";
+    this.shared.cleanup();
   }
 
   public isLoggedIn(){
-    return this.token !== "";
+    return this.Token !== "";
   }
 
   get User(){
-    return this.user;
+    return this.shared.User;
   }
 
   get Token(){
-    return this.token;
+    return this.shared.AuthToken;
   }
 
   set User(user : User){
-    this.user = user;
+    this.shared.User = user;
   }
 
   set Token(token : string){
-    this.token = token;
+    this.shared.AuthToken = token;
   }
 }

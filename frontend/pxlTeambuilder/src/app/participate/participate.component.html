@@ -12,9 +12,15 @@
       </form>
 
     <div class="container-select" *ngIf="showSelect">
-      <select class="form-control" *ngIf="groups" [(ngModel)]="selectedOption">
+      <label for="selectGroup">Select group</label>
+      <select class="form-control" *ngIf="groups" [(ngModel)]="selectedOption" id="selectGroup">
         <option *ngFor="let group of groups">{{ group.Name }}</option>
       </select>
+
+      <label>Or create new group</label>
+      <input type="text" placeholder="groupname" class="form-control" [(ngModel)]="newGroup"/>
+      
+
       <button class="btn btn-primary" (click)="participate()">Participate</button>
     </div>
   </div>

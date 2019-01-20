@@ -23,5 +23,10 @@ export class ProjectoverviewItemComponent implements OnInit {
     this.router.navigate(['/details'])
   }
 
+  editProjectClick(event : Event){
+    event.preventDefault();
+    this.projectService.SelectedProject = this.project;
+    this.router.navigate(['/edit']);
+  }
 
 }
